@@ -44,6 +44,14 @@ namespace Alhammaret.ViewModel
             }
         }
 
+        public List<CardDB.Set> AllSets
+        {
+            get
+            {
+                return new List<CardDB.Set>() { CardDB.Set.OathOfTheGatewatch, CardDB.Set.MagicOrigins, CardDB.Set.KhansOfTarkir };
+            }
+        }
+
         public CardDatabaseViewModel()
         { }
 

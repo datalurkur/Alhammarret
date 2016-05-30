@@ -277,7 +277,7 @@ namespace Alhammaret.ViewModel
         public void ResetRecognizedCard()
         {
             this.CardCount = 1;
-            this.foilCount = 0;
+            this.FoilCount = 0;
             this.RecognizedCard = null;
             this.ChosenSet = CardDB.Set.None;
         }

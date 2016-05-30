@@ -12,13 +12,13 @@ namespace Recognizer
 	public ref class CardRecognizer sealed
 	{
 	private:
-		const int kCardWidth = 500;
-		const int kCardHeight = 750;
+		const int kCardWidth = 1000;
+		const int kCardHeight = 1500;
 
-		const int kNameHeight = 50;
-		const int kNameVPadding = 40;
-		const int kNameLPadding = 25;
-		const int kNameRPadding = 100;
+		const int kNameHeight = 200;
+		const int kNameVPadding = 80;
+		const int kNameLPadding = 50;
+		const int kNameRPadding = 200;
 
 	public:
 		CardRecognizer();

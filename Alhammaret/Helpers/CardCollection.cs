@@ -49,7 +49,6 @@ namespace Alhammaret
         {
             this.Ready = false;
             this.cards = new Dictionary<int, Card>();
-            Import();
         }
 
         public List<Card> AllCards()
@@ -133,13 +132,16 @@ namespace Alhammaret
         {
             try
             {
+                int total = 0;
                 string jsonStr = await FileIO.ReadTextAsync(file);
                 Card[] jsonData = JsonConvert.DeserializeObject<Card[]>(jsonStr);
                 for (int i = 0; i < jsonData.Length; ++i)
                 {
                     Card c = jsonData[i];
                     this.cards[c.Id] = c;
+                    total += c.Count;
                 }
+                Debug.WriteLine($"Loaded {total} cards from collection ({jsonData.Length} unique)");
                 return true;
             }
             catch (Exception e)

@@ -109,6 +109,9 @@
     <Compile Include="ViewModel\CardDatabaseViewModel.cs" />
     <Compile Include="ViewModel\CardCollectionViewModel.cs" />
     <Compile Include="ViewModel\CollectionHistoryViewModel.cs" />
+    <Compile Include="View\CardDBData.xaml.cs">
+      <DependentUpon>CardDBData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CardManaBlock.xaml.cs">
       <DependentUpon>CardManaBlock.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\CardDBData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CardManaBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -166,9 +166,9 @@ namespace Alhammaret
             public static Card Sample1()
             {
                 Card c = new Card();
-                c.Name = "Alhammarret's Archive";
+                c.Name = "Mighty Leap";
                 c.ManaCost = new Mana("{5}", 5);
-                c.CardSets = new List<Set>() { Set.MagicOrigins };
+                c.CardSets = new List<Set>() { Set.MagicOrigins, Set.OathOfTheGatewatch };
                 return c;
             }
 
@@ -242,9 +242,46 @@ namespace Alhammaret
 
         public Card Get(string name)
         {
-            return cardByName.ContainsKey(name) ? cardByName[name] : null;
+            string key = name.ToLower();
+            key = key.Replace("•", "'");
+            if (cardByName.ContainsKey(key))
+            {
+                return cardByName[key];
+            }
+            else
+            {
+                return GetPermute(key);
+            }
         }
 
+        private Card GetPermute(string key)
+        {
+            Card ret;
+            ret = Permute(key, 'i', "j");
+            if (ret != null) { return ret; }
+            ret = Permute(key, 'l', "j");
+            if (ret != null) { return ret; }
+            ret = Permute(key, 'i', "z");
+            if (ret != null) { return ret; }
+            return null;
+        }
+
+        private Card Permute(string key, char src, string dst)
+        {
+            if (!key.Contains(src)) { return null; }
+            int offset = 0;
+            int idx;
+            while ((idx = key.Substring(offset).IndexOf(src)) != -1)
+            {
+                int adj = idx + offset;
+                string sub = key.Substring(0, adj) + dst + key.Substring(adj + 1, key.Length - adj - 1);
+                Debug.WriteLine($"Attempting substitution '{sub}'");
+                if (cardByName.ContainsKey(sub)) { return cardByName[sub]; }
+                offset = adj + 1;
+            }
+            return null;
+        }
+        
         public Card Get(int id)
         {
             return cardById.ContainsKey(id) ? cardById[id] : null;
@@ -290,14 +327,14 @@ namespace Alhammaret
                     Debug.WriteLine($"Ignoring basic land '{setData.Cards[i].Name}");
                     continue;
                 }
- 
-                if (cardByName.ContainsKey(setData.Cards[i].Name))
+                string nameKey = setData.Cards[i].Name.ToLower();
+                if (cardByName.ContainsKey(nameKey))
                 {
-                    cardByName[setData.Cards[i].Name].AddSet(set, setData.Cards[i].MultiverseId);
+                    cardByName[nameKey].AddSet(set, setData.Cards[i].MultiverseId);
                 }
                 else
                 {
-                    cardByName[setData.Cards[i].Name] = new Card(setData.Cards[i], set);
+                    cardByName[nameKey] = new Card(setData.Cards[i], set);
                 }
 
                 if (cardById.ContainsKey(setData.Cards[i].MultiverseId))
@@ -306,7 +343,7 @@ namespace Alhammaret
                 }
                 else
                 {
-                    cardById[setData.Cards[i].MultiverseId] = cardByName[setData.Cards[i].Name];
+                    cardById[setData.Cards[i].MultiverseId] = cardByName[nameKey];
                 }
             }
             OnDatabaseUpdated?.Invoke();

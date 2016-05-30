@@ -89,11 +89,11 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Count"/>
                 <Button Grid.Row="0" Grid.Column="1" Content="-" Click="DecreaseCardCount"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="{Binding CardCount, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Grid.Row="0" Grid.Column="3" Content="-" Click="IncreaseCardCount"/>
+                <Button Grid.Row="0" Grid.Column="3" Content="+" Click="IncreaseCardCount"/>
                 <TextBlock Grid.Row="1" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="Foils"/>
-                <Button Grid.Row="1" Grid.Column="1" Content="-" Click="DecreaseCardCount"/>
+                <Button Grid.Row="1" Grid.Column="1" Content="-" Click="DecreaseFoilCount"/>
                 <TextBlock Grid.Row="1" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding FoilCount, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Grid.Row="1" Grid.Column="3" Content="-" Click="IncreaseCardCount"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="+" Click="IncreaseFoilCount"/>
             </Grid>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <Button Content="Cancel" Click="CardRecognitionDenied"/>

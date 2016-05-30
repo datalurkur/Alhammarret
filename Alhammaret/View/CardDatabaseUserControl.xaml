@@ -15,49 +15,22 @@
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}"
           d:DataContext="{Binding Source={d:DesignInstance Type=dtd:CardDatabaseDTD, IsDesignTimeCreatable=True}}">
-        <Grid.Resources>
-            <local:SetImageConverter x:Key="SConverter"/>
-        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" ItemsSource="{Binding Cards, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="OnCardSelected">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Cards, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="OnCardSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="25"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-                        <ListView Grid.Column="0" ItemsSource="{Binding CardSets}">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Margin" Value="0,0,0,0"/>
-                                    <Setter Property="Padding" Value="0,0,0,0"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Converter={StaticResource SConverter}}" Width="25" Height="20"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="1"/>
-                        <TextBlock VerticalAlignment="Center" DataContext="{Binding ManaCost}" Text="{Binding CMC}" Grid.Column="2"/>
-                        <local:CardManaBlock DataContext="{Binding ManaCost}" Grid.Column="3"/>
-                    </Grid>
+                    <local:CardDBData DataContext="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Column="1" DataContext="{Binding FocusedCard, UpdateSourceTrigger=PropertyChanged}">
+        <Grid Grid.Row="0" Grid.Column="1" DataContext="{Binding FocusedCard, UpdateSourceTrigger=PropertyChanged}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>

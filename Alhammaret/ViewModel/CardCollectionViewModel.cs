@@ -96,19 +96,20 @@ namespace Alhammaret.ViewModel
 
         private void OnCardDatabaseUpdated()
         {
-            this.AllCardNames = CardDB.Instance.AllCards().Select(c => c.Name).ToList();
+            this.AllCardNames = CardDB.Instance.AllCards().OrderBy(c => c.Name).Select(c => c.Name).ToList();
             if (this.Cards != null)
             {
                 for (int i = 0; i < this.Cards.Count; ++i)
                 {
                     this.Cards[i].TryLoadData();
                 }
+                this.Cards = this.Cards.OrderBy(c => c.CardData.Name).ToList();
             }
         }
 
         private void OnCardCollectionUpdated()
         {
-            this.Cards = CardCollection.Instance.AllCards().Select(c => new CardContainer(c)).ToList();
+            this.Cards = CardCollection.Instance.AllCards().Select(c => new CardContainer(c)).OrderBy(c => c.CardData.Name).ToList();
         }
     }
 }

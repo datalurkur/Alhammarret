@@ -102,7 +102,7 @@ namespace Alhammaret
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            CardCollection.Instance.Export();
+            //CardCollection.Instance.Export();
             deferral.Complete();
         }
     }

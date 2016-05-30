@@ -56,6 +56,19 @@ namespace Alhammaret.View
             this.viewModel.CardCount += 1;
         }
 
+        private void DecreaseFoilCount(object sender, RoutedEventArgs e)
+        {
+            if (this.viewModel.FoilCount < 1) { return; }
+            DecreaseCardCount(sender, e);
+            this.viewModel.FoilCount -= 1;
+        }
+
+        private void IncreaseFoilCount(object sender, RoutedEventArgs e)
+        {
+            IncreaseCardCount(sender, e);
+            this.viewModel.FoilCount += 1;
+        }
+
         private async void CardRecognitionConfirmed(object sender, RoutedEventArgs e)
         {
             if (this.viewModel.RecognizedCard.CardSets.Count == 1)

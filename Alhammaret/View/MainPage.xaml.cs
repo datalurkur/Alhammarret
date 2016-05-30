@@ -19,5 +19,15 @@ namespace Alhammaret.View
         {
             CardCollection.Instance.Export();
         }
+
+        private void OnLoad(object sender, RoutedEventArgs e)
+        {
+            CardCollection.Instance.Import();
+        }
+
+        private void OnUnload(object sender, RoutedEventArgs e)
+        {
+            CardCollection.Instance.Export();
+        }
     }
 }
