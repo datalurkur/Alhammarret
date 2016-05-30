@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alhammaret", "Alhammaret\Alhammaret.csproj", "{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1} = {7099BE13-2904-45B3-929F-E881DF3B8EC1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Recognizer", "Recognizer\Recognizer.vcxproj", "{7099BE13-2904-45B3-929F-E881DF3B8EC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|ARM.ActiveCfg = Debug|ARM
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|ARM.Build.0 = Debug|ARM
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|ARM.Deploy.0 = Debug|ARM
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|x64.ActiveCfg = Debug|x64
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|x64.Build.0 = Debug|x64
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|x64.Deploy.0 = Debug|x64
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|x86.ActiveCfg = Debug|x86
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|x86.Build.0 = Debug|x86
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Debug|x86.Deploy.0 = Debug|x86
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|ARM.ActiveCfg = Release|ARM
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|ARM.Build.0 = Release|ARM
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|ARM.Deploy.0 = Release|ARM
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|x64.ActiveCfg = Release|x64
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|x64.Build.0 = Release|x64
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|x64.Deploy.0 = Release|x64
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|x86.ActiveCfg = Release|x86
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|x86.Build.0 = Release|x86
+		{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}.Release|x86.Deploy.0 = Release|x86
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Debug|ARM.Build.0 = Debug|ARM
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Debug|x64.ActiveCfg = Debug|x64
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Debug|x64.Build.0 = Debug|x64
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Debug|x86.ActiveCfg = Debug|Win32
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Debug|x86.Build.0 = Debug|Win32
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|ARM.ActiveCfg = Release|ARM
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|ARM.Build.0 = Release|ARM
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x64.ActiveCfg = Release|x64
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x64.Build.0 = Release|x64
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x86.ActiveCfg = Release|Win32
+		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

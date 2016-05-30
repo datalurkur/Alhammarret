@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <OpenCV-Platform Condition="'$(Platform)' == 'Win32'">x86</OpenCV-Platform>
+    <OpenCV-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</OpenCV-Platform>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(OpenCV-Platform)\native\*.dll" />
+  </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\..\build\native\$(OpenCV-Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_calib3d310.lib;opencv_core310.lib;opencv_features2d310.lib;opencv_flann310.lib;opencv_highgui310.lib;opencv_imgcodecs310.lib;opencv_imgproc310.lib;opencv_ml310.lib;opencv_objdetect310.lib;opencv_photo310.lib;opencv_shape310.lib;opencv_stitching310.lib;opencv_ts310.lib;opencv_video310.lib;opencv_videoio310.lib;opencv_videostab310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>
