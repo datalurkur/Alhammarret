@@ -8,6 +8,7 @@ using namespace Microsoft::WRL;
 
 namespace Recognizer
 {
+	[Windows::Foundation::Metadata::WebHostHidden]
 	public ref class CardRecognizer sealed
 	{
 	private:

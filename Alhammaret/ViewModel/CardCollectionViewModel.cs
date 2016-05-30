@@ -30,6 +30,24 @@ namespace Alhammaret.DesignTimeData
 
 namespace Alhammaret.ViewModel
 {
+    class CardContainer
+    {
+        public CardCollection.Card LoadedCard { get; set; }
+        public CardDB.Card CardData { get; set; }
+
+        public CardContainer(CardCollection.Card c)
+        {
+            this.LoadedCard = c;
+            TryLoadData();
+        }
+
+        public void TryLoadData()
+        {
+            if (this.CardData != null) { return; }
+            this.CardData = CardDB.Instance.Get(this.LoadedCard.Id);
+        }
+    }
+
     class CardCollectionViewModel : INotifyPropertyChanged
     {
         public List<string> AllCardNames { get; private set; }
@@ -45,8 +63,8 @@ namespace Alhammaret.ViewModel
             }
         }
 
-        private List<CardCollection.Card> cards;
-        public List<CardCollection.Card> Cards
+        private List<CardContainer> cards;
+        public List<CardContainer> Cards
         {
             get { return this.cards; }
             set
@@ -79,11 +97,18 @@ namespace Alhammaret.ViewModel
         private void OnCardDatabaseUpdated()
         {
             this.AllCardNames = CardDB.Instance.AllCards().Select(c => c.Name).ToList();
+            if (this.Cards != null)
+            {
+                for (int i = 0; i < this.Cards.Count; ++i)
+                {
+                    this.Cards[i].TryLoadData();
+                }
+            }
         }
 
         private void OnCardCollectionUpdated()
         {
-            this.Cards = CardCollection.Instance.AllCards();
+            this.Cards = CardCollection.Instance.AllCards().Select(c => new CardContainer(c)).ToList();
         }
     }
 }

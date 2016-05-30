@@ -245,6 +245,11 @@ namespace Alhammaret
             return cardByName.ContainsKey(name) ? cardByName[name] : null;
         }
 
+        public Card Get(int id)
+        {
+            return cardById.ContainsKey(id) ? cardById[id] : null;
+        }
+
         public List<Card> AllCards()
         {
             return cardByName.Values.ToList();
@@ -254,8 +259,8 @@ namespace Alhammaret
 
         private async void Build()
         {
-            //try
-            //{
+            try
+            {
                 StorageFile jsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/AllSets.txt"));
                 string jsonStr = await FileIO.ReadTextAsync(jsonFile);
                 JsonData jsonData = JsonConvert.DeserializeObject<JsonData>(jsonStr);
@@ -267,11 +272,11 @@ namespace Alhammaret
                 ProcessSet(jsonData.FRF, Set.FateReforged);
                 ProcessSet(jsonData.KTK, Set.KhansOfTarkir);
                 Debug.WriteLine("Finished processing card data");
-            /*}
+            }
             catch (Exception e)
             {
                 Debug.WriteLine("Exception while building card database : " + e.Message);
-            }*/
+            }
             this.Ready = true;
             OnDatabaseUpdated?.Invoke();
         }

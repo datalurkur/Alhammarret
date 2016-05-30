@@ -27,7 +27,7 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="100"/>
@@ -38,14 +38,20 @@
                                     <StackPanel Orientation="Horizontal"/>
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
+                                    <Setter Property="Padding" Value="0,0,0,0"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Image Source="{Binding Converter={StaticResource SConverter}}" Width="25" Height="20"/>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <TextBlock Text="{Binding Name}" Grid.Column="1"/>
-                        <TextBlock DataContext="{Binding ManaCost}" Text="{Binding CMC}" Grid.Column="2"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="1"/>
+                        <TextBlock VerticalAlignment="Center" DataContext="{Binding ManaCost}" Text="{Binding CMC}" Grid.Column="2"/>
                         <local:CardManaBlock DataContext="{Binding ManaCost}" Grid.Column="3"/>
                     </Grid>
                 </DataTemplate>

@@ -28,10 +28,10 @@
                             <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Count}" VerticalAlignment="Center" Grid.Column="0"/>
+                        <TextBlock DataContext="{Binding LoadedCard}" Text="{Binding Count}" VerticalAlignment="Center" Grid.Column="0"/>
                         <Button Content="-" Width="20" Height="20" Padding="0,0,0,0" Click="ReduceCount" Grid.Column="1"/>
                         <Button Content="X" Width="20" Height="20" Padding="0,0,0,0" Margin="0,0,0,0" Click="RemoveCard" Grid.Column="2"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Grid.Column="3"/>
+                        <TextBlock DataContext="{Binding CardData}" Text="{Binding Name}" VerticalAlignment="Center" Grid.Column="3"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
