@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Alhammaret
 {
@@ -17,6 +19,7 @@ namespace Alhammaret
         public JsonSetData ORI;
         public JsonSetData FRF;
         public JsonSetData KTK;
+        public JsonSetData M15;
     }
 
     public class JsonSetData
@@ -211,6 +214,13 @@ namespace Alhammaret
                 this.CardSets.Add(set);
                 this.Ids.Add(id);
             }
+
+            public Set GetSet(int id)
+            {
+                if (!this.Ids.Contains(id)) { return Set.None; }
+                int index = this.Ids.IndexOf(id);
+                return this.CardSets[index];
+            }
         }
  
         private static CardDB instance;
@@ -229,15 +239,18 @@ namespace Alhammaret
         private Dictionary<string, Card> cardByName;
         private Dictionary<int, Card> cardById;
 
-        public delegate void DatabaseUpdated();
+        private Hunspell_UWP.HunspellWrapper hunspell;
+
+        public delegate void DatabaseUpdated(float progress);
         public DatabaseUpdated OnDatabaseUpdated;
 
-        public CardDB()
+        public bool Ready { get; private set; }
+
+        private CardDB()
         {
             this.Ready = false;
             cardByName = new Dictionary<string, Card>();
             cardById = new Dictionary<int, Card>();
-            Build();
         }
 
         public Card Get(string name)
@@ -250,36 +263,24 @@ namespace Alhammaret
             }
             else
             {
-                return GetPermute(key);
+                return TrySpellCorrection(key);
             }
         }
 
-        private Card GetPermute(string key)
+        private Card TrySpellCorrection(string misspelled)
         {
-            Card ret;
-            ret = Permute(key, 'i', "j");
-            if (ret != null) { return ret; }
-            ret = Permute(key, 'l', "j");
-            if (ret != null) { return ret; }
-            ret = Permute(key, 'i', "z");
-            if (ret != null) { return ret; }
-            return null;
-        }
-
-        private Card Permute(string key, char src, string dst)
-        {
-            if (!key.Contains(src)) { return null; }
-            int offset = 0;
-            int idx;
-            while ((idx = key.Substring(offset).IndexOf(src)) != -1)
+            string key = misspelled.Replace(" ", "");
+            Hunspell_UWP.HunspellSuggestions s = this.hunspell.GetSuggestions(key);
+            if (s.Count() == 0) { return null; }
+            string suggestion = s.Get(0);
+            if (cardByName.ContainsKey(suggestion))
             {
-                int adj = idx + offset;
-                string sub = key.Substring(0, adj) + dst + key.Substring(adj + 1, key.Length - adj - 1);
-                Debug.WriteLine($"Attempting substitution '{sub}'");
-                if (cardByName.ContainsKey(sub)) { return cardByName[sub]; }
-                offset = adj + 1;
+                return cardByName[suggestion];
             }
-            return null;
+            else
+            {
+                return null;
+            }
         }
         
         public Card Get(int id)
@@ -287,20 +288,25 @@ namespace Alhammaret
             return cardById.ContainsKey(id) ? cardById[id] : null;
         }
 
+        public Set GetSet(int id)
+        {
+            if (!cardById.ContainsKey(id)) { return Set.None; }
+            return cardById[id].GetSet(id);
+        }
+
         public List<Card> AllCards()
         {
             return cardByName.Values.ToList();
         }
 
-        public bool Ready { get; private set; }
-
-        private async void Build()
+        public async void Build()
         {
             try
             {
                 StorageFile jsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/AllSets.txt"));
                 string jsonStr = await FileIO.ReadTextAsync(jsonFile);
                 JsonData jsonData = JsonConvert.DeserializeObject<JsonData>(jsonStr);
+
                 ProcessSet(jsonData.BFZ, Set.BattleForZendikar);
                 ProcessSet(jsonData.DTK, Set.DragonsOfTarkir);
                 ProcessSet(jsonData.OGW, Set.OathOfTheGatewatch);
@@ -308,6 +314,10 @@ namespace Alhammaret
                 ProcessSet(jsonData.SOI, Set.ShadowsOverInnistrad);
                 ProcessSet(jsonData.FRF, Set.FateReforged);
                 ProcessSet(jsonData.KTK, Set.KhansOfTarkir);
+                ProcessSet(jsonData.M15, Set.Magic2015);
+
+                await BuildHunspellDictionary();
+
                 Debug.WriteLine("Finished processing card data");
             }
             catch (Exception e)
@@ -315,7 +325,7 @@ namespace Alhammaret
                 Debug.WriteLine("Exception while building card database : " + e.Message);
             }
             this.Ready = true;
-            OnDatabaseUpdated?.Invoke();
+            OnDatabaseUpdated?.Invoke(1f);
         }
 
         private void ProcessSet(JsonSetData setData, Set set)
@@ -324,7 +334,7 @@ namespace Alhammaret
             {
                 if (setData.Cards[i].Rarity == "Basic Land")
                 {
-                    Debug.WriteLine($"Ignoring basic land '{setData.Cards[i].Name}");
+                    //Debug.WriteLine($"Ignoring basic land '{setData.Cards[i].Name}");
                     continue;
                 }
                 string nameKey = setData.Cards[i].Name.ToLower();
@@ -346,7 +356,51 @@ namespace Alhammaret
                     cardById[setData.Cards[i].MultiverseId] = cardByName[nameKey];
                 }
             }
-            OnDatabaseUpdated?.Invoke();
+        }
+
+        private async Task BuildHunspellDictionary()
+        {
+            StorageFolder folder = ApplicationData.Current.LocalCacheFolder;
+            IStorageItem dictTest = await folder.TryGetItemAsync("hunspell_dict.txt");
+            StorageFile dict;
+            if (dictTest == null)
+            {
+                List<string> distinct = cardByName.Keys.Select(n => n.Replace(" ", "")).ToList();
+                dict = await folder.CreateFileAsync("hunspell_dict.txt");
+                IRandomAccessStream stream = await dict.OpenAsync(FileAccessMode.ReadWrite);
+                using (IOutputStream oStream = stream.GetOutputStreamAt(0))
+                {
+                    using (DataWriter writer = new DataWriter(oStream))
+                    {
+                        writer.WriteString($"{distinct.Count}\n");
+                        for (int i = 0; i < distinct.Count; ++i)
+                        {
+                            writer.WriteString($"{distinct[i]}\n");
+                        }
+                        await writer.StoreAsync();
+                        await writer.FlushAsync();
+                        writer.DetachStream();
+                    }
+                }
+            }
+            else
+            {
+                dict = dictTest as StorageFile;
+            }
+
+            IStorageItem affixTest = await folder.TryGetItemAsync("hunspell_affix.txt");
+            StorageFile affix;
+            if (affixTest == null)
+            {
+                StorageFile affixAsset = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/hunspell_affix.txt"));
+                affix = await affixAsset.CopyAsync(folder);
+            }
+            else
+            {
+                affix = affixTest as StorageFile;
+            }
+            Debug.WriteLine($"Building hunspell from {affix.Path} and {dict.Path}");
+            this.hunspell = new Hunspell_UWP.HunspellWrapper(dict.Path, affix.Path);
         }
     }
 }

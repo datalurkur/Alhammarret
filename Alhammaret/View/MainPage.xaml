@@ -5,7 +5,6 @@
     xmlns:local="using:Alhammaret.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Loaded="OnLoad"
     Unloaded="OnUnload"
     mc:Ignorable="d">
 
@@ -18,12 +17,15 @@
             <Button Content="Import Collection" Click="DoImport"/>
             <Button Content="Export Collection" Click="DoExport"/>
         </StackPanel>
-        <Pivot SelectedIndex="2" Grid.Row="1">
+        <Pivot SelectedIndex="2" Grid.Row="3">
             <PivotItem Header="Database">
                 <local:CardDatabaseUserControl/>
             </PivotItem>
             <PivotItem Header="Collection">
                 <local:CardCollectionUserControl/>
+            </PivotItem>
+            <PivotItem Header="Builder">
+                <local:DeckBuilderUserControl/>
             </PivotItem>
             <PivotItem Header="Recognizer">
                 <local:RecognizeCardUserControl/>

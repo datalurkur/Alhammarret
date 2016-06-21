@@ -65,6 +65,7 @@
                 <Button Content="Rotate CCW" Click="RotateCCW"/>
                 <Button Content="Switch Cameras" Click="SwitchCams"/>
             </StackPanel>
+            <ComboBox ItemsSource="{Binding SetItems}" SelectedValue="{Binding ChosenSet, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="Start Scanning" IsEnabled="{Binding Scanning, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IConverter}}" Click="StartScanning"/>
         </StackPanel>
         <Grid Grid.Column="1" Visibility="{Binding RecognizedCard, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VConverter}}">

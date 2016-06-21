@@ -45,9 +45,9 @@ namespace Alhammaret
 
         public bool Ready { get; private set; }
 
-        public CardCollection()
+        public CardCollection(bool ready = false)
         {
-            this.Ready = false;
+            this.Ready = ready;
             this.cards = new Dictionary<int, Card>();
         }
 
@@ -61,7 +61,7 @@ namespace Alhammaret
             return this.cards.ContainsKey(id) ? this.cards[id].Count : 0;
         }
 
-        public void AddCard(int id, int count, int foilCount)
+        public void AddCard(int id, int count=1, int foilCount=0)
         {
             if (!this.cards.ContainsKey(id))
             {
@@ -72,7 +72,7 @@ namespace Alhammaret
             OnCollectionUpdated?.Invoke();
         }
 
-        public void ReduceCard(int id, int count, int foilCount)
+        public void ReduceCard(int id, int count=1, int foilCount=0)
         {
             if (this.cards.ContainsKey(id))
             {

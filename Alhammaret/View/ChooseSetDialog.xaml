@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Class="Alhammaret.View.ChooseSetDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Alhammaret.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="TITLE"
+    PrimaryButtonText="Button1"
+    SecondaryButtonText="Button2"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Name}" Grid.Row="0"/>
+        <TextBlock Text="This card is part of multiple sets.  Select the correct set." Grid.Row="1"/>
+        <ComboBox ItemsSource="{Binding CardSets}" SelectedItem="{Binding SelectedSet, Mode=TwoWay}" Grid.Row="2"/>
+    </Grid>
+</ContentDialog>

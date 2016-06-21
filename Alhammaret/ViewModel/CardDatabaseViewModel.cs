@@ -53,26 +53,10 @@ namespace Alhammaret.ViewModel
         }
 
         public CardDatabaseViewModel()
-        { }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void Register()
-        {
-            CardDB.Instance.OnDatabaseUpdated += OnCardDatabaseUpdated;
-            OnCardDatabaseUpdated();
-        }
-
-        public void Unregister()
-        {
-
-            CardDB.Instance.OnDatabaseUpdated -= OnCardDatabaseUpdated;
-        }
-
-        private void OnCardDatabaseUpdated()
         {
             this.Cards = CardDB.Instance.AllCards().OrderBy(c => c.Name).ToList();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

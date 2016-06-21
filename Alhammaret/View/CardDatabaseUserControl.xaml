@@ -9,8 +9,6 @@
     mc:Ignorable="d"
     d:DesignHeight="600"
     d:DesignWidth="800"
-    Loaded="OnLoad"
-    Unloaded="OnUnload"
     >
 
     <Grid Background="{ThemeResource AppBarBackgroundThemeBrush}"
@@ -23,10 +21,38 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <local:SetImageConverter x:Key="SConverter"/>
+        </Grid.Resources>
         <ListView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Cards, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="OnCardSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <local:CardDBData DataContext="{Binding}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListView Grid.Column="0" ItemsSource="{Binding CardSets}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Margin" Value="0,0,0,0"/>
+                                    <Setter Property="Padding" Value="0,0,0,0"/>
+                                    <Setter Property="MinWidth" Value="0"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Converter={StaticResource SConverter}}" Width="25" Height="20"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <local:CardDBData Grid.Column="1" DataContext="{Binding}"/>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

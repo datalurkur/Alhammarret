@@ -6,9 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alhammaret", "Alhammaret\Alhammaret.csproj", "{574A92A0-10E0-4061-B1C8-9CF8CA4AFDA7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7099BE13-2904-45B3-929F-E881DF3B8EC1} = {7099BE13-2904-45B3-929F-E881DF3B8EC1}
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED} = {5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Recognizer", "Recognizer\Recognizer.vcxproj", "{7099BE13-2904-45B3-929F-E881DF3B8EC1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hunspell_UWP", "Hunspell_UWP\Hunspell_UWP.vcxproj", "{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +53,18 @@ Global
 		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x64.Build.0 = Release|x64
 		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x86.ActiveCfg = Release|Win32
 		{7099BE13-2904-45B3-929F-E881DF3B8EC1}.Release|x86.Build.0 = Release|Win32
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Debug|ARM.ActiveCfg = Debug|ARM
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Debug|ARM.Build.0 = Debug|ARM
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Debug|x64.ActiveCfg = Debug|x64
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Debug|x64.Build.0 = Debug|x64
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Debug|x86.ActiveCfg = Debug|Win32
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Debug|x86.Build.0 = Debug|Win32
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Release|ARM.ActiveCfg = Release|ARM
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Release|ARM.Build.0 = Release|ARM
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Release|x64.ActiveCfg = Release|x64
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Release|x64.Build.0 = Release|x64
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Release|x86.ActiveCfg = Release|Win32
+		{5930AAE7-19D1-43DF-BB57-90C4DF87A1ED}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

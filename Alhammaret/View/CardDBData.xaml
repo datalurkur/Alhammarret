@@ -10,36 +10,13 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Grid.Resources>
-            <local:SetImageConverter x:Key="SConverter"/>
-        </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="75"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" ItemsSource="{Binding CardSets}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="0,0,0,0"/>
-                    <Setter Property="Padding" Value="0,0,0,0"/>
-                    <Setter Property="MinWidth" Value="0"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="{Binding Converter={StaticResource SConverter}}" Width="25" Height="20"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="1"/>
-        <TextBlock VerticalAlignment="Center" DataContext="{Binding ManaCost}" Text="{Binding CMC}" Grid.Column="2"/>
-        <local:CardManaBlock DataContext="{Binding ManaCost}" Grid.Column="3"/>
+        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="0"/>
+        <TextBlock VerticalAlignment="Center" DataContext="{Binding ManaCost}" Text="{Binding CMC}" Grid.Column="1"/>
+        <local:CardManaBlock DataContext="{Binding ManaCost}" Grid.Column="2"/>
     </Grid>
 </UserControl>

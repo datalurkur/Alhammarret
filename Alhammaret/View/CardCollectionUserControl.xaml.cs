@@ -66,7 +66,7 @@ namespace Alhammaret.View
                     }
                     else
                     {
-                        await Dialogs.PromptChooseSet(chosenCardData, AddCardCommand);
+                        await Dialogs.PromptChooseSet(chosenCardData, AddCard);
                     }
                 }
             }

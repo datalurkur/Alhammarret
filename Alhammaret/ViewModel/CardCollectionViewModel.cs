@@ -33,17 +33,13 @@ namespace Alhammaret.ViewModel
     class CardContainer
     {
         public CardCollection.Card LoadedCard { get; set; }
+        public CardDB.Set CardSet { get; set; }
         public CardDB.Card CardData { get; set; }
 
         public CardContainer(CardCollection.Card c)
         {
             this.LoadedCard = c;
-            TryLoadData();
-        }
-
-        public void TryLoadData()
-        {
-            if (this.CardData != null) { return; }
+            this.CardSet = CardDB.Instance.GetSet(this.LoadedCard.Id);
             this.CardData = CardDB.Instance.Get(this.LoadedCard.Id);
         }
     }
@@ -75,36 +71,21 @@ namespace Alhammaret.ViewModel
         }
 
         public CardCollectionViewModel()
-        { }
+        {
+            this.AllCardNames = CardDB.Instance.AllCards().OrderBy(c => c.Name).Select(c => c.Name).ToList();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Register()
         {
-            CardDB.Instance.OnDatabaseUpdated += OnCardDatabaseUpdated;
-            OnCardDatabaseUpdated();
             CardCollection.Instance.OnCollectionUpdated += OnCardCollectionUpdated;
             OnCardCollectionUpdated();
         }
 
         public void Unregister()
         {
-
-            CardDB.Instance.OnDatabaseUpdated -= OnCardDatabaseUpdated;
             CardCollection.Instance.OnCollectionUpdated -= OnCardCollectionUpdated;
-        }
-
-        private void OnCardDatabaseUpdated()
-        {
-            this.AllCardNames = CardDB.Instance.AllCards().OrderBy(c => c.Name).Select(c => c.Name).ToList();
-            if (this.Cards != null)
-            {
-                for (int i = 0; i < this.Cards.Count; ++i)
-                {
-                    this.Cards[i].TryLoadData();
-                }
-                this.Cards = this.Cards.OrderBy(c => c.CardData.Name).ToList();
-            }
         }
 
         private void OnCardCollectionUpdated()

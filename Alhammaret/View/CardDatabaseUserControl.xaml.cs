@@ -18,16 +18,6 @@ namespace Alhammaret.View
             this.DataContext = this.viewModel;
         }
 
-        private void OnLoad(object sender, RoutedEventArgs e)
-        {
-            ((CardDatabaseViewModel)this.DataContext).Register();
-        }
-
-        private void OnUnload(object sender, RoutedEventArgs e)
-        {
-            ((CardDatabaseViewModel)this.DataContext).Unregister();
-        }
-
         private void OnCardSelected(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems != null && e.AddedItems.Count > 0)

@@ -2,6 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Popups;
 using Alhammaret.ViewModel;
+using System.Diagnostics;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -84,7 +85,7 @@ namespace Alhammaret.View
                 }
                 else
                 {
-                    await Dialogs.PromptChooseSet(this.viewModel.RecognizedCard, AddCardCallback);
+                    await Dialogs.PromptChooseSet(this.viewModel.RecognizedCard, AddCard);
                 }
 
             }

@@ -56,6 +56,7 @@ public class WebcamHelper
             this.devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
             this.deviceIndex = 0;
         }
+        if (this.deviceIndex >= this.devices.Count) { return; }
         var cameraDevice = this.devices[this.deviceIndex];
 
         if (cameraDevice == null)
@@ -92,7 +93,7 @@ public class WebcamHelper
 
     public async Task StartPreview(CaptureElement element)
     {
-        if (!this.isPreviewing)
+        if (!this.isPreviewing && this.mediaCapture != null)
         {
             element.Source = this.mediaCapture;
             await this.mediaCapture.StartPreviewAsync();
@@ -102,13 +103,17 @@ public class WebcamHelper
 
     public async Task StopPreview()
     {
-        if (!this.isPreviewing) { return; }
+        if (!this.isPreviewing || this.mediaCapture == null) { return; }
         this.isPreviewing = false;
         await this.mediaCapture.StopPreviewAsync();
     }
 
     public async Task<WriteableBitmap> GetImage()
     {
+        if (this.mediaCapture == null)
+        {
+            return null;
+        }
         InMemoryRandomAccessStream inStream = new InMemoryRandomAccessStream();
         await this.mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), inStream);
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(inStream);

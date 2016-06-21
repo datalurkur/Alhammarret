@@ -8,6 +8,8 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Collections;
 using Recognizer;
 
 namespace Alhammaret.ViewModel
@@ -207,7 +209,6 @@ namespace Alhammaret.ViewModel
         public WebcamHelper CamHelper;
 
         private OcrEngine ocrEngine;
-        private bool ready = false;
 
         public CardRecognizerViewModel()
         {
@@ -250,28 +251,12 @@ namespace Alhammaret.ViewModel
         {
             await this.CamHelper.Initialize();
             await this.CamHelper.StartPreview(captureElement);
-            CardDB.Instance.OnDatabaseUpdated += OnCardsUpdated;
-            CardCollection.Instance.OnCollectionUpdated += OnCardsUpdated;
         }
 
         public async void Teardown()
         {
             await this.CamHelper.StopPreview();
             await this.CamHelper.Teardown();
-            CardDB.Instance.OnDatabaseUpdated -= OnCardsUpdated;
-            CardCollection.Instance.OnCollectionUpdated -= OnCardsUpdated;
-        }
-
-        private void OnCardsUpdated()
-        {
-            if (CardDB.Instance.Ready && CardCollection.Instance.Ready)
-            {
-                this.ready = true;
-            }
-            else
-            {
-                this.ready = false;
-            }
         }
 
         public void ResetRecognizedCard()
@@ -279,7 +264,7 @@ namespace Alhammaret.ViewModel
             this.CardCount = 1;
             this.FoilCount = 0;
             this.RecognizedCard = null;
-            this.ChosenSet = CardDB.Set.None;
+            //this.ChosenSet = CardDB.Set.None;
         }
 
         private async Task<bool> Refresh()
@@ -303,7 +288,7 @@ namespace Alhammaret.ViewModel
                         OcrResult result = await this.ocrEngine.RecognizeAsync(sbmp);
                         this.OCRName = $"'{result.Text}'";
 
-                        if (this.ready && result.Text != null && result.Text.Length > 0)
+                        if (result.Text != null && result.Text.Length > 0)
                         {
                             CardDB.Card card = CardDB.Instance.Get(result.Text);
                             this.RecognizedCard = card;
