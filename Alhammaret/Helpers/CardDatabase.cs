@@ -257,6 +257,8 @@ namespace Alhammaret
         {
             string key = name.ToLower();
             key = key.Replace("•", "'");
+            key = key.Replace("(", "");
+            key = key.Trim();
             if (cardByName.ContainsKey(key))
             {
                 return cardByName[key];
