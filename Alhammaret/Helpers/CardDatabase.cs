@@ -258,6 +258,12 @@ namespace Alhammaret
             string key = name.ToLower();
             key = key.Replace("•", "'");
             key = key.Replace("(", "");
+            // For some of the Innistrad flip cards, the sun gets recognized as an O, and hunspell doesn't have a good mechanism for ignoring characters that I'm aware of
+            // Sooo, this is kind of a hack to work around that
+            if (key.Substring(0, 2) == "O ")
+            {
+                key = key.Substring(2);
+            }
             key = key.Trim();
             if (cardByName.ContainsKey(key))
             {
