@@ -33,7 +33,26 @@ namespace Alhammaret
             }
         }
 
+        public string GetString(string name)
+        {
+            if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey("alhammaretsettings"))
+            {
+                object val = ApplicationData.Current.RoamingSettings.Containers["alhammaretsettings"].Values[name];
+                return val == null ? null : (string)val;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void Set(string name, int value)
+        {
+            ApplicationDataContainer settings = ApplicationData.Current.RoamingSettings.CreateContainer("alhammaretsettings", ApplicationDataCreateDisposition.Always);
+            settings.Values[name] = value;
+        }
+
+        public void SetString(string name, string value)
         {
             ApplicationDataContainer settings = ApplicationData.Current.RoamingSettings.CreateContainer("alhammaretsettings", ApplicationDataCreateDisposition.Always);
             settings.Values[name] = value;

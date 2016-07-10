@@ -10,19 +10,28 @@ namespace Alhammaret.View
             this.InitializeComponent();
         }
 
-        private void DoImport(object sender, RoutedEventArgs e)
+        private async void DoImport(object sender, RoutedEventArgs e)
         {
-            CardCollection.Instance.Import();
+            if (!await CardCollection.Instance.DefaultImport())
+            {
+                CardCollection.Instance.Import();
+            }
         }
 
-        private void DoExport(object sender, RoutedEventArgs e)
+        private async void DoExport(object sender, RoutedEventArgs e)
         {
-            CardCollection.Instance.Export();
+            if (!await CardCollection.Instance.DefaultExport())
+            {
+                CardCollection.Instance.Export();
+            }
         }
         
-        private void OnUnload(object sender, RoutedEventArgs e)
+        private async void OnUnload(object sender, RoutedEventArgs e)
         {
-            CardCollection.Instance.Export();
+            if (!await CardCollection.Instance.DefaultExport())
+            {
+                CardCollection.Instance.Export();
+            }
         }
     }
 }

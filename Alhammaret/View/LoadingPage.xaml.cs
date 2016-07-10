@@ -14,10 +14,13 @@ namespace Alhammaret.View
             this.DataContext = this.viewModel = new LoadingProgressViewModel();
         }
 
-        private void OnLoad(object sender, RoutedEventArgs e)
+        private async void OnLoad(object sender, RoutedEventArgs e)
         {
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => CardDB.Instance.Build());
-            CardCollection.Instance.Import();
+            if (!await CardCollection.Instance.DefaultImport())
+            {
+                CardCollection.Instance.Import();
+            }
 
             CardDB.Instance.OnDatabaseUpdated += OnUpdated;
             CardCollection.Instance.OnCollectionUpdated += CheckReady;

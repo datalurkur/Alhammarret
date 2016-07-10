@@ -102,6 +102,8 @@ namespace Alhammaret
             StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)
             {
+                Settings.Instance.SetString("ImportPath", file.Path);
+                Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(file);
                 bool success = await Load(file);
                 if (success)
                 {
@@ -115,6 +117,25 @@ namespace Alhammaret
             OnCollectionUpdated?.Invoke();
         }
 
+        public async Task<bool> DefaultImport()
+        {
+            string importPath = Settings.Instance.GetString("ImportPath");
+            if (importPath == null) { return false; }
+            StorageFile importFile = await StorageFile.GetFileFromPathAsync(importPath);
+            if (importFile == null) { return false; }
+            bool success = await Load(importFile);
+            if (success)
+            {
+                this.Ready = true;
+                OnCollectionUpdated?.Invoke();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async void Export()
         {
             FileSavePicker picker = new FileSavePicker();
@@ -124,7 +145,25 @@ namespace Alhammaret
             StorageFile file = await picker.PickSaveFileAsync();
             if (file != null)
             {
+                Settings.Instance.SetString("ImportPath", file.Path);
+                Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(file);
                 await Save(file);
+            }
+        }
+
+        public async Task<bool> DefaultExport()
+        {
+            string exportPath = Settings.Instance.GetString("ImportPath");
+            if (exportPath == null) { return false; }
+            StorageFile file = await StorageFile.GetFileFromPathAsync(exportPath);
+            if (file != null)
+            {
+                await Save(file);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
