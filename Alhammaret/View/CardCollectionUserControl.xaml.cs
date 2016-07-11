@@ -87,15 +87,15 @@ namespace Alhammaret.View
         private void ReduceCount(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            CardCollection.Card card = (CardCollection.Card)button.DataContext;
-            CardCollection.Instance.ReduceCard(card.Id, 1, 0);
+            CardContainer card = (CardContainer)button.DataContext;
+            CardCollection.Instance.ReduceCard(card.LoadedCard.Id, 1, 0);
         }
 
         private void RemoveCard(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            CardCollection.Card card = (CardCollection.Card)button.DataContext;
-            CardCollection.Instance.RemoveCard(card.Id);
+            CardContainer card = (CardContainer)button.DataContext;
+            CardCollection.Instance.RemoveCard(card.LoadedCard.Id);
         }
     }
 }

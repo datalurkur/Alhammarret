@@ -277,8 +277,7 @@ namespace Alhammaret
 
         private Card TrySpellCorrection(string misspelled)
         {
-            string key = misspelled.Replace(" ", "");
-            Hunspell_UWP.HunspellSuggestions s = this.hunspell.GetSuggestions(key);
+            Hunspell_UWP.HunspellSuggestions s = this.hunspell.GetSuggestions(misspelled);
             if (s.Count() == 0) { return null; }
             string suggestion = s.Get(0);
             if (cardByName.ContainsKey(suggestion))
@@ -373,7 +372,7 @@ namespace Alhammaret
             StorageFile dict;
             if (dictTest == null)
             {
-                List<string> distinct = cardByName.Keys.Select(n => n.Replace(" ", "")).ToList();
+                List<string> distinct = cardByName.Values.Select(n => n.Name.ToLower()).ToList();
                 dict = await folder.CreateFileAsync("hunspell_dict.txt");
                 IRandomAccessStream stream = await dict.OpenAsync(FileAccessMode.ReadWrite);
                 using (IOutputStream oStream = stream.GetOutputStreamAt(0))
