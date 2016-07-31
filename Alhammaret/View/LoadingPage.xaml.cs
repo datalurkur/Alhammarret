@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Alhammaret.ViewModel;
+using System;
 
 namespace Alhammaret.View
 {
@@ -16,8 +17,14 @@ namespace Alhammaret.View
 
         private async void OnLoad(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => CardDB.Instance.Build());
-            if (!await CardCollection.Instance.DefaultImport())
+            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => CardDB.Instance.Build());
+            bool result = false;
+            try
+            {
+                result = await CardCollection.Instance.DefaultImport();
+            }
+            catch { }
+            if (!result)
             {
                 CardCollection.Instance.Import();
             }

@@ -76,6 +76,8 @@ namespace Alhammaret.View
             {
                 switch (s.Value)
                 {
+                    case CardDB.Set.EldritchMoon:
+                        return "ms-appx:///Assets/set_emn.png";
                     case CardDB.Set.ShadowsOverInnistrad:
                         return "ms-appx:///Assets/set_soi.png";
                     case CardDB.Set.OathOfTheGatewatch:

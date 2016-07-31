@@ -12,6 +12,7 @@ namespace Alhammaret
 {
     public class JsonData
     {
+        public JsonSetData EMN;
         public JsonSetData SOI;
         public JsonSetData BFZ;
         public JsonSetData OGW;
@@ -319,6 +320,7 @@ namespace Alhammaret
                 ProcessSet(jsonData.OGW, Set.OathOfTheGatewatch);
                 ProcessSet(jsonData.ORI, Set.MagicOrigins);
                 ProcessSet(jsonData.SOI, Set.ShadowsOverInnistrad);
+                ProcessSet(jsonData.EMN, Set.EldritchMoon);
                 ProcessSet(jsonData.FRF, Set.FateReforged);
                 ProcessSet(jsonData.KTK, Set.KhansOfTarkir);
                 ProcessSet(jsonData.M15, Set.Magic2015);

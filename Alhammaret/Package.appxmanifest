@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="21687ArboreousIndustries.Alhammarret" Publisher="CN=C169A97E-5C66-4738-920E-6CBBA97BD611" Version="1.1.0.0" />
+  <Identity Name="21687ArboreousIndustries.Alhammarret" Publisher="CN=C169A97E-5C66-4738-920E-6CBBA97BD611" Version="1.1.5.0" />
   <mp:PhoneIdentity PhoneProductId="63cad220-c2f4-4016-a3b4-14e39f642380" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Alhammarret</DisplayName>
