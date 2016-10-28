@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="Alhammaret.View.CardCollectionUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Alhammaret.View"
+    xmlns:converters="clr-namespace:Alhammaret.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="OnLoad"
+    Unloaded="OnUnload">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converters:SetImageConverter x:Key="SConverter"/>
+        </Grid.Resources>
+        <!--
+        <AutoSuggestBox Grid.Row="0" x:Name="NewCardField" TextChanged="OnTextChanged" QuerySubmitted="OnQuerySubmitted"/>
+        -->
+        <!-- FIXME -->
+        <ListView Grid.Row="1" ItemsSource="{Binding Cards, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock DataContext="{Binding LoadedCard}" Text="{Binding Count}" VerticalAlignment="Center" Grid.Column="0"/>
+                        <Button Content="-" Width="20" Height="20" Padding="0,0,0,0" Click="ReduceCount" Grid.Column="1"/>
+                        <Button Content="X" Width="20" Height="20" Padding="0,0,0,0" Margin="0,0,0,0" Click="RemoveCard" Grid.Column="2"/>
+                        <Image Source="{Binding CardSet, Converter={StaticResource SConverter}}" Width="25" Height="20" Grid.Column="3"/>
+                        <controls:CardDBData DataContext="{Binding CardData}" Grid.Column="4"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

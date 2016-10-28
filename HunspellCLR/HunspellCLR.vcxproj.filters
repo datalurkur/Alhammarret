@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="hunspell">
+      <UniqueIdentifier>{ae530021-b439-4b95-b800-7347228c2fb6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HunspellCLR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\affentry.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\affixmgr.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\atypes.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\baseaffix.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\csutil.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\filemgr.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\hashmgr.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\htypes.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\hunspell.h">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\hunspell.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\hunvisapi.h">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\hunzip.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\langnum.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\phonet.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\replist.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\suggestmgr.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+    <ClInclude Include="hunspell\w_char.hxx">
+      <Filter>hunspell</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HunspellCLR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\affentry.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\affixmgr.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\csutil.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\filemgr.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\hashmgr.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\hunspell.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\hunzip.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\phonet.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\replist.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+    <ClCompile Include="hunspell\suggestmgr.cxx">
+      <Filter>hunspell</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
