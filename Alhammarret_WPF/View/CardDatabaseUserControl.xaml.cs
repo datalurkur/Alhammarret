@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Alhammaret.ViewModel;
+using Alhammarret.ViewModel;
 using System.Windows.Controls;
 
-namespace Alhammaret.View
+namespace Alhammarret.View
 {
     public sealed partial class CardDatabaseUserControl : UserControl
     {

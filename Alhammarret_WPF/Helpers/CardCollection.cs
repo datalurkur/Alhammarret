@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Newtonsoft.Json;
 
-namespace Alhammaret
+namespace Alhammarret
 {
     public class CardCollection
     {
@@ -104,7 +104,8 @@ namespace Alhammaret
             if (fileResult == true)
             {
                 string file = fileDialog.FileName;
-                Settings.Instance.SetString("ImportPath", file);
+                // FIXME - Store this off somewhere
+                //Settings.Instance.SetString("ImportPath", file);
                 if (Load(file))
                 {
                     this.Ready = true;
@@ -119,6 +120,7 @@ namespace Alhammaret
 
         public bool DefaultImport()
         {
+            /*
             string importPath = Settings.Instance.GetString("ImportPath");
             if (importPath == null) { return false; }
             bool success = Load(importPath);
@@ -132,6 +134,9 @@ namespace Alhammaret
             {
                 return false;
             }
+            */
+            // FIXME - Once we start storing the load path somewhere, try to load it here first
+            return false;
         }
 
         public void Export()
@@ -143,17 +148,22 @@ namespace Alhammaret
             var fileResult = fileDialog.ShowDialog();
             if (fileResult == true)
             {
-                Settings.Instance.SetString("ImportPath", fileDialog.FileName);
+                // FIXME
+                //Settings.Instance.SetString("ImportPath", fileDialog.FileName);
                 Save(fileDialog.FileName);
             }
         }
 
         public bool DefaultExport()
         {
+            // FIXME
+            /*
             string exportPath = Settings.Instance.GetString("ImportPath");
             if (exportPath == null) { return false; }
             Save(exportPath);
             return true;
+            */
+            return false;
         }
 
         private bool Load(string file)

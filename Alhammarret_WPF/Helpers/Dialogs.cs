@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Alhammaret.ViewModel;
+using Alhammarret.ViewModel;
 using System.Threading.Tasks;
-using Alhammaret.View;
+using Alhammarret.View;
 
-namespace Alhammaret
+namespace Alhammarret
 {
     public class Dialogs
     {

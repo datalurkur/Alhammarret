@@ -11,15 +11,15 @@ namespace Alhammarret
         {
             // Settings
             "create table settings (name varchar(32), settingValue int)",
-            "insert into settings (name, settingValue) values ('cannyLower', 10)",
-            "insert into settings (name, settingValue) values ('cannyUpper', 20)",
-            "insert into settings (name, settingValue) values ('cannyKernel', 3)",
-            "insert into settings (name, settingValue) values ('cannyBlur', 3)",
-            "insert into settings (name, settingValue) values ('minContour', 1000)",
-            "insert into settings (name, settingValue) values ('maxContour', 1500)",
-            "insert into settings (name, settingValue) values ('minArea', 70000)",
-            "insert into settings (name, settingValue) values ('maxArea', 85000)",
-            "insert into settings (name, settingValue) values ('rotations', 0)"
+            "insert into settings (name, settingValue) values ('Canny Lower', 10)",
+            "insert into settings (name, settingValue) values ('Canny Upper', 20)",
+            "insert into settings (name, settingValue) values ('Canny Kernel', 3)",
+            "insert into settings (name, settingValue) values ('Canny Blur', 3)",
+            "insert into settings (name, settingValue) values ('Min Contour', 1000)",
+            "insert into settings (name, settingValue) values ('Max Contour', 1500)",
+            "insert into settings (name, settingValue) values ('Min Area', 70000)",
+            "insert into settings (name, settingValue) values ('Max Area', 85000)",
+            "insert into settings (name, settingValue) values ('Rotations', 0)"
         };
 
         private static SQLiteConnection connection = null;
@@ -51,6 +51,15 @@ namespace Alhammarret
             connection = null;
         }
 
+        private static void CheckConnection()
+        {
+            if (connection == null)
+            {
+                string appDir = System.AppDomain.CurrentDomain.BaseDirectory;
+                InitializeFromFile($"{appDir}\\test.sqlite");
+            }
+        }
+
         private static void SetupTables()
         {
             for (int i = 0; i < kSetupTables.Length; ++i)
@@ -58,16 +67,26 @@ namespace Alhammarret
                 SQLiteCommand cmd = new SQLiteCommand(kSetupTables[i], connection);
                 cmd.ExecuteNonQuery();
             }
+
+            // DEBUG
+            SQLiteCommand cmd2 = new SQLiteCommand("select * from settings", connection);
+            SQLiteDataReader rdr = cmd2.ExecuteReader();
+            foreach (System.Collections.Specialized.NameValueCollection nvc in rdr.GetValues())
+            {
+                Console.WriteLine("Found nvc");
+            }
         }
 
         public static int GetSetting(string name)
         {
-            SQLiteCommand cmd = new SQLiteCommand($"select settingValue from settings where name='{name}'");
+            CheckConnection();
+            SQLiteCommand cmd = new SQLiteCommand($"select settingValue from settings where name='{name}'", connection);
             return (int)cmd.ExecuteScalar();
         }
         public static void SetSetting(string name, int value)
         {
-            SQLiteCommand cmd = new SQLiteCommand($"update settings set settingValue={value} where name='{name}'");
+            CheckConnection();
+            SQLiteCommand cmd = new SQLiteCommand($"update settings set settingValue={value} where name='{name}'", connection);
             cmd.ExecuteNonQuery();
         }
     }

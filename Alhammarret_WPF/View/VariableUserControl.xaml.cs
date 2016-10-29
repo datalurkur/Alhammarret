@@ -6,11 +6,11 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using System.Windows.Controls;
 using System.Windows;
-using Alhammaret.ViewModel;
+using Alhammarret.ViewModel;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Alhammaret.View
+namespace Alhammarret.View
 {
     public sealed partial class VariableUserControl : UserControl
     {

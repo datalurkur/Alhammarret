@@ -1,14 +1,15 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
-using Alhammaret.ViewModel;
+using Alhammarret.ViewModel;
 using System.Diagnostics;
 
-namespace Alhammaret.View
+using System;
+using System.Windows.Media.Imaging;
+
+namespace Alhammarret.View
 {
     public sealed partial class RecognizeCardUserControl : UserControl
     {
-        private const float kButtonScalar = 1.5f;
-
         private CardRecognizerViewModel viewModel;
 
         public RecognizeCardUserControl()
@@ -102,7 +103,7 @@ namespace Alhammaret.View
             this.viewModel.ActivelyScan(250);
         }
 
-        private async void SwitchCams(object sender, RoutedEventArgs e)
+        private void SwitchCams(object sender, RoutedEventArgs e)
         {
             this.viewModel.Recognizer.ChangeCaptureInterface();
         }

@@ -1,8 +1,12 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
-using Alhammaret.ViewModel;
+using Alhammarret.ViewModel;
 
-namespace Alhammaret.View
+using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace Alhammarret.View
 {
     public sealed partial class MainPage : Page
     {

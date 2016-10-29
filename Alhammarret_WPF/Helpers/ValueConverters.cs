@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Globalization;
 using System.Windows;
 
-namespace Alhammaret.Converters
+namespace Alhammarret.Converters
 { 
     public class BooleanVisibilityConverter : IValueConverter
     {

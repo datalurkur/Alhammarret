@@ -5,9 +5,10 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Collections;
 using System.Windows.Media;
-//using Recognizer;
+using System.Windows.Media.Imaging;
+using Alhammarret;
 
-namespace Alhammaret.ViewModel
+namespace Alhammarret.ViewModel
 {
     class VariableControl : INotifyPropertyChanged
     {
@@ -21,7 +22,7 @@ namespace Alhammaret.ViewModel
             {
                 if (this.val != value)
                 {
-                    Settings.Instance.Set(this.Name, value);
+                    DBInterface.SetSetting(this.Name, value);
                 }
                 this.val = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Val"));
@@ -37,7 +38,7 @@ namespace Alhammaret.ViewModel
         public VariableControl(string name, DataChanged odc)
         {
             this.Name = name;
-            this.Val = Settings.Instance.Get(name);
+            this.Val = DBInterface.GetSetting(this.Name);
             this.onDataChanged = odc;
         }
 
@@ -74,6 +75,17 @@ namespace Alhammaret.ViewModel
         public VariableControl MaxContourControl { get; private set; }
         public VariableControl MinAreaControl { get; private set; }
         public VariableControl MaxAreaControl { get; private set; }
+
+        private int framesScanned = 0;
+        public int FramesScanned
+        {
+            get { return this.framesScanned; }
+            set
+            {
+                this.framesScanned = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FramesScanned"));
+            }
+        }
         
         private bool scanning = false;
         public bool Scanning
@@ -105,12 +117,14 @@ namespace Alhammaret.ViewModel
             {
                 if (this.rotations != value)
                 {
-                    Settings.Instance.Set("Rotations", value);
+                    DBInterface.SetSetting("Rotations", value);
                 }
                 this.rotations = value;
                 this.Recognizer.SetRotation(this.rotations);
             }
         }
+
+        private ImageSource noImagePlaceholder;
 
         private ImageSource previewImage;
         public ImageSource PreviewImage
@@ -223,11 +237,11 @@ namespace Alhammaret.ViewModel
         }
 
         public Recognizer.CardRecognizer Recognizer;
-        public WebcamHelper CamHelper;
 
         public CardRecognizerViewModel()
         {
-            this.CamHelper = new WebcamHelper();
+            this.noImagePlaceholder = new BitmapImage(new System.Uri("/Assets/cancel.png", UriKind.RelativeOrAbsolute));
+
             this.Recognizer = new Recognizer.CardRecognizer();
 
             this.CannyLowerControl = new VariableControl("Canny Lower", UpdateCannyParams);
@@ -239,7 +253,7 @@ namespace Alhammaret.ViewModel
             this.MinAreaControl = new VariableControl("Min Area", UpdateAreaBounds);
             this.MaxAreaControl = new VariableControl("Max Area", UpdateAreaBounds);
 
-            this.Rotations = Settings.Instance.Get("Rotations");
+            this.Rotations = DBInterface.GetSetting("Rotations");
 
             UpdateCannyParams();
             UpdateContourBounds();
@@ -274,7 +288,6 @@ namespace Alhammaret.ViewModel
             bool ret = false;
             if (this.Recognizer.CaptureFrame())
             {
-                this.PreviewImage = this.Recognizer.GetPreview();
                 if (this.Recognizer.FilterContours())
                 {
                     if (this.Recognizer.FindCorners())
@@ -306,9 +319,25 @@ namespace Alhammaret.ViewModel
                         }
                         this.TransformedImage = this.Recognizer.GetTransformedCard();
                     }
+                    else
+                    {
+                        this.TransformedImage = this.noImagePlaceholder;
+                    }
                     this.CornersImage = this.Recognizer.GetCornersDebug();
                 }
+                else
+                {
+                    this.CornersImage = this.noImagePlaceholder;
+                }
+                this.PreviewImage = this.Recognizer.GetPreview();
                 this.ContourImage = this.Recognizer.GetContourDebug();
+
+                this.FramesScanned += 1;
+            }
+            else
+            {
+                this.PreviewImage = this.noImagePlaceholder;
+                this.ContourImage = this.noImagePlaceholder;
             }
             return ret;
         }

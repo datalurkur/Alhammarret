@@ -1,11 +1,11 @@
-﻿using Alhammaret;
+﻿using Alhammarret;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Alhammaret.DesignTimeData
+namespace Alhammarret.DesignTimeData
 {
     class CardCollectionDTD
     {
@@ -15,19 +15,19 @@ namespace Alhammaret.DesignTimeData
         public CardCollectionDTD()
         {
             this.AllCardNames = new List<string>();
-            this.AllCardNames.Add("Alhammaret's Archive");
+            this.AllCardNames.Add("Alhammarret's Archive");
             this.AllCardNames.Add("Tireless Tracker");
 
             this.Cards = new List<CardCollection.Card>();
             /* Replace with multiverse IDs
-            this.Cards.Add(new CardCollection.Card("Alhammaret's Archive"));
+            this.Cards.Add(new CardCollection.Card("Alhammarret's Archive"));
             this.Cards.Add(new CardCollection.Card("Tireless Tracker"));
             */
         }
     }
 }
 
-namespace Alhammaret.ViewModel
+namespace Alhammarret.ViewModel
 {
     class CardContainer
     {

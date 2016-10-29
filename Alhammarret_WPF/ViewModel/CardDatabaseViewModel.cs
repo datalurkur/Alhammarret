@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Alhammaret.DesignTimeData
+namespace Alhammarret.DesignTimeData
 {
     class CardDatabaseDTD
     {
@@ -17,7 +17,7 @@ namespace Alhammaret.DesignTimeData
     }
 }
 
-namespace Alhammaret.ViewModel
+namespace Alhammarret.ViewModel
 {
     class CardDatabaseViewModel : INotifyPropertyChanged
     {

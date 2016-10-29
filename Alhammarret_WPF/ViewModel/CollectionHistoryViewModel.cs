@@ -1,11 +1,11 @@
-﻿using Alhammaret;
+﻿using Alhammarret;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Alhammaret.ViewModel
+namespace Alhammarret.ViewModel
 {
     class CollectionTransaction
     {

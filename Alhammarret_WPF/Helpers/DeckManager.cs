@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Alhammaret
+namespace Alhammarret
 {
     public class DeckManager
     {

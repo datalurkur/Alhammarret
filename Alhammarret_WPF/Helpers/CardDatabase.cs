@@ -9,7 +9,7 @@ using System.Windows;
 using HunspellCLR;
 using System.IO;
 
-namespace Alhammaret
+namespace Alhammarret
 {
     public class JsonData
     {

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Alhammaret.View
+namespace Alhammarret.View
 {
     public sealed partial class CardDBData : UserControl
     {

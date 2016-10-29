@@ -51,11 +51,7 @@ namespace Recognizer
 		bool FilterContours_Internal(cv::Mat src);
 		cv::Mat FindEdges(cv::Mat src);
 
-		cv::Mat BitmapToBGRAMat(WriteableBitmap^ wb);
-		cv::Mat BitmapToBGRMat(WriteableBitmap^ wb);
-		WriteableBitmap^ BGRAMatToBitmap(cv::Mat inputMat);
 		WriteableBitmap^ BGRMatToBitmap(cv::Mat inputMat);
-		WriteableBitmap^ AMatToBitmap(cv::Mat inputMat);
 
 	private:
         cv::VideoCapture* captureDevice;

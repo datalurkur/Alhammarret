@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace Alhammaret.View
+namespace Alhammarret.View
 {
     public sealed partial class CardManaBlock : UserControl
     {

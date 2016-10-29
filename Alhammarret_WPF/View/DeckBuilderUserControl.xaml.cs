@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using Alhammaret.ViewModel;
+using Alhammarret.ViewModel;
 using System.Windows;
 
-namespace Alhammaret.View
+namespace Alhammarret.View
 {
     public sealed partial class DeckBuilderUserControl : UserControl
     {

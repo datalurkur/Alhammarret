@@ -352,59 +352,12 @@ Mat CardRecognizer::FindEdges(cv::Mat src)
 	return detected_edges;
 }
 
-Mat CardRecognizer::BitmapToBGRAMat(WriteableBitmap^ wb)
+WriteableBitmap^ CardRecognizer::BGRMatToBitmap(Mat inputMat)
 {
-	int height = wb->PixelHeight;
-	int width = wb->PixelWidth;
-	Mat mat = Mat(height, width, CV_8UC4);
-
-	wb->Lock();
-	memcpy(mat.data, (void*)wb->BackBuffer, 4 * height * width);
-	wb->Unlock();
-
-	return mat;
-}
-
-Mat CardRecognizer::BitmapToBGRMat(WriteableBitmap^ wb)
-{
-	int height = wb->PixelHeight;
-	int width = wb->PixelWidth;
-	Mat mat = Mat(height, width, CV_8UC4);
-
-	wb->Lock();
-	memcpy(mat.data, (void*)wb->BackBuffer, 4 * height * width);
-	wb->Unlock();
-	cvtColor(mat, mat, CV_BGRA2BGR);
-	return mat;
-}
-
-WriteableBitmap^ CardRecognizer::BGRAMatToBitmap(Mat inputMat)
-{
-	WriteableBitmap^ wbmp = gcnew WriteableBitmap(inputMat.cols, inputMat.rows, 96.0, 96.0, PixelFormats::Bgra32, nullptr);
+	WriteableBitmap^ wbmp = gcnew WriteableBitmap(inputMat.cols, inputMat.rows, 96.0, 96.0, PixelFormats::Bgr24, nullptr);
 	wbmp->Lock();
 	memcpy((void*)wbmp->BackBuffer, inputMat.data, inputMat.step.buf[1] * inputMat.cols * inputMat.rows);
-	wbmp->Unlock();
-	return wbmp;
-}
-
-WriteableBitmap^ CardRecognizer::BGRMatToBitmap(Mat inputMatRaw)
-{
-	Mat inputMat = Mat(inputMatRaw.rows, inputMatRaw.cols, CV_8UC4);
-	cvtColor(inputMatRaw, inputMat, CV_BGR2BGRA);
-	WriteableBitmap^ wbmp = gcnew WriteableBitmap(inputMat.cols, inputMat.rows, 96.0, 96.0, PixelFormats::Bgra32, nullptr);
-	wbmp->Lock();
-	memcpy((void*)wbmp->BackBuffer, inputMat.data, inputMat.step.buf[1] * inputMat.cols * inputMat.rows);
-	wbmp->Unlock();
-	return wbmp;
-}
-
-WriteableBitmap^ CardRecognizer::AMatToBitmap(Mat inputMatRaw)
-{
-	Mat inputMat = Mat(inputMatRaw.rows, inputMatRaw.cols, CV_8UC4);
-	cvtColor(inputMatRaw, inputMat, CV_GRAY2RGBA);
-	WriteableBitmap^ wbmp = gcnew WriteableBitmap(inputMat.cols, inputMat.rows, 96.0, 96.0, PixelFormats::Bgra32, nullptr);
-	wbmp->Lock();
-	memcpy((void*)wbmp->BackBuffer, inputMat.data, inputMat.step.buf[1] * inputMat.cols * inputMat.rows);
+    wbmp->AddDirtyRect(System::Windows::Int32Rect(0, 0, inputMat.cols, inputMat.rows));
 	wbmp->Unlock();
 	return wbmp;
 }
