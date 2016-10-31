@@ -4,6 +4,7 @@
 
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include "opencv2/text.hpp"
 
 using namespace System;
 using namespace System::Windows::Media::Imaging;
@@ -52,6 +53,9 @@ namespace Recognizer
 		cv::Mat FindEdges(cv::Mat src);
 
 		WriteableBitmap^ BGRMatToBitmap(cv::Mat inputMat);
+
+        void ErDraw(vector<cv::Mat> &channels, vector<vector<cv::text::ERStat>>& regions, vector<cv::Vec2i> group, cv::Mat& segmentation);
+        bool IsRepetitive(const string& s);
 
 	private:
         cv::VideoCapture* captureDevice;

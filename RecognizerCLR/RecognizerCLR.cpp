@@ -233,7 +233,111 @@ bool CardRecognizer::IsolateCard()
 
 System::String^ CardRecognizer::RecognizeText()
 {
-    return gcnew System::String("test");
+    unsigned int i, j;
+
+    // DETECT TEXT
+    // Get the name region
+    int width = kCardWidth - kNameRPadding - kNameLPadding;
+    Rect roi(kNameLPadding, kNameVPadding, width, kNameHeight);
+    Mat nameRegion = (*transformedCard)(roi);
+
+    // Convert the name region to grayscale
+    Mat grayImage;
+    cvtColor(nameRegion, grayImage, COLOR_RGB2GRAY);
+
+    vector<Mat> channels;
+    channels.push_back(grayImage);
+    channels.push_back(255 - grayImage);
+
+    // Create filter objects with the default classifiers
+    Ptr<text::ERFilter> filter1 = text::createERFilterNM1(text::loadClassifierNM1("Assets/trained_classifierNM1.xml"), 8, 0.00015f, 0.13f, 0.2f, true, 0.1f);
+    Ptr<text::ERFilter> filter2 = text::createERFilterNM2(text::loadClassifierNM2("Assets/trained_classifierNM2.xml"), 0.5);
+
+    vector<vector<text::ERStat>> regions(channels.size());
+    for (i = 0; i < channels.size(); ++i)
+    {
+        filter1->run(channels[i], regions[i]);
+        filter2->run(channels[i], regions[i]);
+    }
+
+    Mat imageDecomposition = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
+    vector<Vec2i> tempGroup;
+    for (i = 0; i < regions.size(); ++i)
+    {
+        for (j = 0; j < regions[i].size(); ++j)
+        {
+            tempGroup.push_back(Vec2i(i, j));
+        }
+        Mat tempMat = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
+        ErDraw(channels, regions, tempGroup, tempMat);
+        if (i > 0)
+        {
+            tempMat = tempMat / 2;
+        }
+        imageDecomposition = imageDecomposition | tempMat;
+        tempGroup.clear();
+    }
+
+    // Detect character groups
+    vector<vector<Vec2i>> nmRegionGroups;
+    vector<Rect> nmBoxes;
+    erGrouping(nameRegion, channels, regions, nmRegionGroups, nmBoxes, text::erGrouping_Modes::ERGROUPING_ORIENTATION_HORIZ);
+
+    // RECOGNIZE TEXT
+    Ptr<text::OCRTesseract> ocr = text::OCRTesseract::create();
+
+    string outputText;
+
+    Mat outputImage;
+    Mat detectionOutput;
+    Mat groupSegmentationOutput = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
+    nameRegion.copyTo(outputImage);
+    nameRegion.copyTo(detectionOutput);
+    float imageScale  = 600.f / nameRegion.rows;
+    float fontScale = (float)(2 - imageScale) / 1.4f;
+
+    vector<string> detectedWords;
+    for (i = 0; i < nmBoxes.size(); ++i)
+    {
+        rectangle(detectionOutput, nmBoxes[i].tl(), nmBoxes[i].br(), Scalar(0, 255, 255), 3);
+
+        Mat groupMat = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
+        ErDraw(channels, regions, nmRegionGroups[i], groupMat);
+
+        Mat groupSegmentation;
+        groupMat.copyTo(groupSegmentation);
+        //nameRegion(nmBoxes[i]).copyTo(groupMat);
+        groupMat(nmBoxes[i]).copyTo(groupMat);
+        copyMakeBorder(groupMat, groupMat, 15, 15, 15, 15, BORDER_CONSTANT, Scalar(0));
+
+        vector<Rect> boxes;
+        vector<string> words;
+        vector<float> confidences;
+        ocr->run(groupMat, outputText, &boxes, &words, &confidences, text::OCR_LEVEL_WORD);
+
+        outputText.erase(remove(outputText.begin(), outputText.end(), '\n'), outputText.end());
+        if (outputText.size() < 3)
+        {
+            continue;
+        }
+
+        for (j = 0; j < boxes.size(); ++j)
+        {
+            boxes[j].x += nmBoxes[i].x - 15;
+            boxes[j].y += nmBoxes[i].y - 15;
+
+            if ((words[j].size() < 2) || (confidences[j] < 51) || ((words[j].size() == 2) && (words[j][0] == words[j][1])) || ((words[j].size() < 4) && (confidences[j] < 60)) || IsRepetitive(words[j]))
+                continue;
+            detectedWords.push_back(words[j]);
+            rectangle(outputImage, boxes[j].tl(), boxes[j].br(), Scalar(255, 0, 255), 3);
+            Size word_size = getTextSize(words[j], FONT_HERSHEY_SIMPLEX, (double)fontScale, (int)(3 * fontScale), NULL);
+            rectangle(outputImage, boxes[j].tl() - Point(3, word_size.height + 3), boxes[j].tl() + Point(word_size.width, 0), Scalar(255, 0, 255), -1);
+            putText(outputImage, words[j], boxes[j].tl()-Point(1, 1), FONT_HERSHEY_SIMPLEX, fontScale, Scalar(255, 255, 255), (int)(3 * fontScale));
+            groupSegmentationOutput = groupSegmentationOutput | groupSegmentation;
+        }
+    }
+
+    return gcnew System::String(outputText.c_str());
 }
 
 WriteableBitmap^ CardRecognizer::GetPreview() { return BGRMatToBitmap(*frameMat); }
@@ -360,6 +464,38 @@ WriteableBitmap^ CardRecognizer::BGRMatToBitmap(Mat inputMat)
     wbmp->AddDirtyRect(System::Windows::Int32Rect(0, 0, inputMat.cols, inputMat.rows));
 	wbmp->Unlock();
 	return wbmp;
+}
+
+void CardRecognizer::ErDraw(vector<Mat> &channels, vector<vector<text::ERStat>>& regions, vector<Vec2i> group, Mat& segmentation)
+{
+    for (int i = 0; i < group.size(); ++i)
+    {
+        text::ERStat er = regions[group[i][0]][group[i][1]];
+        if (er.parent != NULL) // deprecate the root region
+        {
+            int newMaskVal = 255;
+            int flags = 4 + (newMaskVal << 8) + FLOODFILL_FIXED_RANGE + FLOODFILL_MASK_ONLY;
+            floodFill(channels[group[i][0]], segmentation, Point(er.pixel%channels[group[i][0]].cols, er.pixel / channels[group[i][0]].cols),
+                Scalar(255), 0, Scalar(er.level), Scalar(0), flags);
+        }
+    }
+}
+
+bool CardRecognizer::IsRepetitive(const string& s)
+{
+    int count = 0;
+    for (int i = 0; i<(int)s.size(); i++)
+    {
+        if ((s[i] == 'i') ||
+            (s[i] == 'l') ||
+            (s[i] == 'I'))
+            count++;
+    }
+    if (count >((int)s.size() + 1) / 2)
+    {
+        return true;
+    }
+    return false;
 }
 
 RLineSegment::RLineSegment(int order, cv::Point p0, cv::Point p1)
