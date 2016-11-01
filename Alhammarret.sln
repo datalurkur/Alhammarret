@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HunspellCLR", "HunspellCLR\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecognizerCLR", "RecognizerCLR\RecognizerCLR.vcxproj", "{848645EA-85B3-4517-ABDE-0AFBC40078E6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecognizerTests", "RecognizerTests\RecognizerTests.vcxproj", "{7F482DBB-20FC-4304-882B-858D0ED497B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,18 @@ Global
 		{848645EA-85B3-4517-ABDE-0AFBC40078E6}.Release|x64.Build.0 = Release|x64
 		{848645EA-85B3-4517-ABDE-0AFBC40078E6}.Release|x86.ActiveCfg = Release|Win32
 		{848645EA-85B3-4517-ABDE-0AFBC40078E6}.Release|x86.Build.0 = Release|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Debug|ARM.ActiveCfg = Debug|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Debug|x64.ActiveCfg = Debug|x64
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Debug|x64.Build.0 = Debug|x64
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Debug|x86.ActiveCfg = Debug|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Debug|x86.Build.0 = Debug|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Release|Any CPU.ActiveCfg = Release|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Release|ARM.ActiveCfg = Release|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Release|x64.ActiveCfg = Release|x64
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Release|x64.Build.0 = Release|x64
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Release|x86.ActiveCfg = Release|Win32
+		{7F482DBB-20FC-4304-882B-858D0ED497B1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
