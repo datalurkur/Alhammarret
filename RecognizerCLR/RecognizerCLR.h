@@ -47,6 +47,8 @@ namespace Recognizer
 		WriteableBitmap^ GetCornersDebug();
 		WriteableBitmap^ GetTransformedCard();
 		WriteableBitmap^ GetNameRegion();
+		WriteableBitmap^ GetTextDecomposition();
+		WriteableBitmap^ GetTextOuputImage();
 
 	private:
 		bool FilterContours_Internal(cv::Mat src);
@@ -66,6 +68,9 @@ namespace Recognizer
 		cv::Mat* cornersDebug;
 		cv::Mat* transformedCard;
 
+		cv::Mat* textDecompDebug;
+		cv::Mat* outputTextDebug;
+
 		std::vector<cv::Point>* contourEdges;
 		cv::Point2f* cardCorners;
 		int cannyLower;
@@ -77,6 +82,9 @@ namespace Recognizer
 		int minBoxArea;
 		int maxBoxArea;
 		int rotation;
+
+		cv::Ptr<cv::text::ERFilter>* filter1;
+		cv::Ptr<cv::text::ERFilter>* filter2;
 
 		// Various drawing tools
 		cv::Scalar* red;

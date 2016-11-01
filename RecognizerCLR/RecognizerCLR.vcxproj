@@ -182,10 +182,6 @@
   <ItemGroup>
     <Image Include="app.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Xml Include="Assets\trained_classifierNM1.xml" />
-    <Xml Include="Assets\trained_classifierNM2.xml" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

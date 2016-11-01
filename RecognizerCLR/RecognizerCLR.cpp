@@ -29,17 +29,32 @@ CardRecognizer::CardRecognizer()
 	cornersDebug = new cv::Mat();
 	contoursDebug = new cv::Mat();
 	transformedCard = new cv::Mat();
+
+    textDecompDebug = new cv::Mat();
+    outputTextDebug = new cv::Mat();
+
 	contourEdges = new std::vector<cv::Point>();
 	cardCorners = new cv::Point2f[4];
 
     captureDevice = 0;
     captureInterface = 0;
+
+    // Create filter objects with the default classifiers
+    filter1 = new Ptr<text::ERFilter>(text::createERFilterNM1(text::loadClassifierNM1("Assets\\trained_classifierNM1.xml"), 8, 0.00015f, 0.13f, 0.2f, true, 0.1f));
+	filter2 = new Ptr<text::ERFilter>(text::createERFilterNM2(text::loadClassifierNM2("Assets\\trained_classifierNM2.xml"), 0.5));
 }
 
 CardRecognizer::~CardRecognizer()
 {
+	delete filter1;
+	delete filter2;
+
 	delete cardCorners;
 	delete contourEdges;
+
+    delete outputTextDebug;
+    delete textDecompDebug;
+
 	delete transformedCard;
 	delete contoursDebug;
 	delete cornersDebug;
@@ -249,18 +264,14 @@ System::String^ CardRecognizer::RecognizeText()
     channels.push_back(grayImage);
     channels.push_back(255 - grayImage);
 
-    // Create filter objects with the default classifiers
-    Ptr<text::ERFilter> filter1 = text::createERFilterNM1(text::loadClassifierNM1("Assets/trained_classifierNM1.xml"), 8, 0.00015f, 0.13f, 0.2f, true, 0.1f);
-    Ptr<text::ERFilter> filter2 = text::createERFilterNM2(text::loadClassifierNM2("Assets/trained_classifierNM2.xml"), 0.5);
-
     vector<vector<text::ERStat>> regions(channels.size());
     for (i = 0; i < channels.size(); ++i)
     {
-        filter1->run(channels[i], regions[i]);
-        filter2->run(channels[i], regions[i]);
+        (*filter1)->run(channels[i], regions[i]);
+        (*filter2)->run(channels[i], regions[i]);
     }
 
-    Mat imageDecomposition = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
+    *textDecompDebug = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
     vector<Vec2i> tempGroup;
     for (i = 0; i < regions.size(); ++i)
     {
@@ -274,7 +285,7 @@ System::String^ CardRecognizer::RecognizeText()
         {
             tempMat = tempMat / 2;
         }
-        imageDecomposition = imageDecomposition | tempMat;
+        *textDecompDebug = *textDecompDebug | tempMat;
         tempGroup.clear();
     }
 
@@ -288,10 +299,9 @@ System::String^ CardRecognizer::RecognizeText()
 
     string outputText;
 
-    Mat outputImage;
     Mat detectionOutput;
     Mat groupSegmentationOutput = Mat::zeros(nameRegion.rows + 2, nameRegion.cols + 2, CV_8UC1);
-    nameRegion.copyTo(outputImage);
+    nameRegion.copyTo(*outputTextDebug);
     nameRegion.copyTo(detectionOutput);
     float imageScale  = 600.f / nameRegion.rows;
     float fontScale = (float)(2 - imageScale) / 1.4f;
@@ -306,7 +316,6 @@ System::String^ CardRecognizer::RecognizeText()
 
         Mat groupSegmentation;
         groupMat.copyTo(groupSegmentation);
-        //nameRegion(nmBoxes[i]).copyTo(groupMat);
         groupMat(nmBoxes[i]).copyTo(groupMat);
         copyMakeBorder(groupMat, groupMat, 15, 15, 15, 15, BORDER_CONSTANT, Scalar(0));
 
@@ -329,10 +338,10 @@ System::String^ CardRecognizer::RecognizeText()
             if ((words[j].size() < 2) || (confidences[j] < 51) || ((words[j].size() == 2) && (words[j][0] == words[j][1])) || ((words[j].size() < 4) && (confidences[j] < 60)) || IsRepetitive(words[j]))
                 continue;
             detectedWords.push_back(words[j]);
-            rectangle(outputImage, boxes[j].tl(), boxes[j].br(), Scalar(255, 0, 255), 3);
+            rectangle(*outputTextDebug, boxes[j].tl(), boxes[j].br(), Scalar(255, 0, 255), 3);
             Size word_size = getTextSize(words[j], FONT_HERSHEY_SIMPLEX, (double)fontScale, (int)(3 * fontScale), NULL);
-            rectangle(outputImage, boxes[j].tl() - Point(3, word_size.height + 3), boxes[j].tl() + Point(word_size.width, 0), Scalar(255, 0, 255), -1);
-            putText(outputImage, words[j], boxes[j].tl()-Point(1, 1), FONT_HERSHEY_SIMPLEX, fontScale, Scalar(255, 255, 255), (int)(3 * fontScale));
+            rectangle(*outputTextDebug, boxes[j].tl() - Point(3, word_size.height + 3), boxes[j].tl() + Point(word_size.width, 0), Scalar(255, 0, 255), -1);
+            putText(*outputTextDebug, words[j], boxes[j].tl() - Point(1, 1), FONT_HERSHEY_SIMPLEX, fontScale, Scalar(255, 255, 255), (int)(3 * fontScale));
             groupSegmentationOutput = groupSegmentationOutput | groupSegmentation;
         }
     }
@@ -355,6 +364,10 @@ WriteableBitmap^ CardRecognizer::GetNameRegion()
 	Mat cropped = (*transformedCard)(roi);
 	return BGRMatToBitmap(cropped);
 }
+
+WriteableBitmap^ CardRecognizer::GetTextDecomposition() { return BGRMatToBitmap(*textDecompDebug); }
+
+WriteableBitmap^ CardRecognizer::GetTextOuputImage() { return BGRMatToBitmap(*outputTextDebug); }
 
 void CardRecognizer::SetCannyParams(int lower, int upper, int kernel, int blur)
 {
@@ -460,7 +473,14 @@ WriteableBitmap^ CardRecognizer::BGRMatToBitmap(Mat inputMat)
 {
 	WriteableBitmap^ wbmp = gcnew WriteableBitmap(inputMat.cols, inputMat.rows, 96.0, 96.0, PixelFormats::Bgr24, nullptr);
 	wbmp->Lock();
-	memcpy((void*)wbmp->BackBuffer, inputMat.data, inputMat.step.buf[1] * inputMat.cols * inputMat.rows);
+    int inputStride = inputMat.step;
+    int outputStride = wbmp->BackBufferStride;
+	uchar* inputBuffer = inputMat.data;
+	uchar* outputBuffer = (uchar*)(void*)wbmp->BackBuffer;
+    for (int i = 0; i < inputMat.rows; ++i)
+    {
+		memcpy(&(outputBuffer[i * outputStride]), &(inputBuffer[i * inputStride]), inputMat.cols * 3);
+    }
     wbmp->AddDirtyRect(System::Windows::Int32Rect(0, 0, inputMat.cols, inputMat.rows));
 	wbmp->Unlock();
 	return wbmp;
@@ -468,7 +488,7 @@ WriteableBitmap^ CardRecognizer::BGRMatToBitmap(Mat inputMat)
 
 void CardRecognizer::ErDraw(vector<Mat> &channels, vector<vector<text::ERStat>>& regions, vector<Vec2i> group, Mat& segmentation)
 {
-    for (int i = 0; i < group.size(); ++i)
+    for (unsigned int i = 0; i < group.size(); ++i)
     {
         text::ERStat er = regions[group[i][0]][group[i][1]];
         if (er.parent != NULL) // deprecate the root region

@@ -39,7 +39,7 @@ namespace Alhammarret.View
 
         private void StartScanning(object sender, RoutedEventArgs e)
         {
-            this.viewModel.ActivelyScan(250);
+            this.viewModel.ActivelyScan(1000);
         }
 
         private void DecreaseCardCount(object sender, RoutedEventArgs e)
@@ -88,7 +88,7 @@ namespace Alhammarret.View
 
             }
             this.viewModel.ResetRecognizedCard();
-            this.viewModel.ActivelyScan(250);
+            this.viewModel.ActivelyScan(1000);
         }
 
         //private void AddCardCallback(IUICommand cmd) { AddCard((int)cmd.Id); }
@@ -100,7 +100,7 @@ namespace Alhammarret.View
         private void CardRecognitionDenied(object sender, RoutedEventArgs e)
         {
             this.viewModel.ResetRecognizedCard();
-            this.viewModel.ActivelyScan(250);
+            this.viewModel.ActivelyScan(1000);
         }
 
         private void SwitchCams(object sender, RoutedEventArgs e)

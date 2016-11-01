@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Assets">
-      <UniqueIdentifier>{a27e2eb8-3ab8-4038-955b-385a28af189f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RecognizerCLR.h">
@@ -51,13 +48,5 @@
     <Image Include="app.ico">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="Assets\trained_classifierNM1.xml">
-      <Filter>Assets</Filter>
-    </Xml>
-    <Xml Include="Assets\trained_classifierNM2.xml">
-      <Filter>Assets</Filter>
-    </Xml>
   </ItemGroup>
 </Project>

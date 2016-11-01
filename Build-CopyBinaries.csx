@@ -40,6 +40,7 @@ string[] openCVFiles = new string[] {
     "opencv_core310",
     "opencv_imgproc310",
     "opencv_imgcodecs310",
+    "opencv_ml310",
     "opencv_text310",
     "opencv_videoio310"
 };

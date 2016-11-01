@@ -181,6 +181,28 @@ namespace Alhammarret.ViewModel
             }
         }
 
+        private ImageSource textDecomp;
+        public ImageSource TextDecomp
+        {
+            get { return this.textDecomp; }
+            set
+            {
+                this.textDecomp = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TextDecomp"));
+            }
+        }
+
+        private ImageSource outputDebug;
+        public ImageSource OutputDebug
+        {
+            get { return this.outputDebug; }
+            set
+            {
+                this.outputDebug = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("OutputDebug"));
+            }
+        }
+
         private CardDB.Card recognizedCard;
         public CardDB.Card RecognizedCard
         {
@@ -297,6 +319,11 @@ namespace Alhammarret.ViewModel
                             // Successfully framed
                             this.NameRegion = this.Recognizer.GetNameRegion();
 
+                            string recognizedText = this.Recognizer.RecognizeText();
+                            this.TextDecomp = this.Recognizer.GetTextDecomposition();
+                            this.OutputDebug = this.Recognizer.GetTextOuputImage();
+
+                            this.OCRName = $"'{recognizedText}'";
                             // FIXME
                             /*
                             SoftwareBitmap sbmp = new SoftwareBitmap(BitmapPixelFormat.Bgra8, nameBmp.PixelWidth, nameBmp.PixelHeight);
