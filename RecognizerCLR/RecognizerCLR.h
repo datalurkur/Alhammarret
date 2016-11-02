@@ -14,6 +14,18 @@ namespace Recognizer
 {
 	public ref class CardRecognizer sealed
 	{
+    public:
+        enum class IntermediateMat
+        {
+            Preview,
+            Contour,
+            Corners,
+            Transformed,
+            NameRegion,
+            TextDecomp,
+            TextOutput
+        };
+
 	private:
 		const int kCardWidth = 1000;
 		const int kCardHeight = 1500;
@@ -42,13 +54,8 @@ namespace Recognizer
 		bool IsolateCard();
         System::String^ RecognizeText();
 
-        WriteableBitmap^ GetPreview();
-		WriteableBitmap^ GetContourDebug();
-		WriteableBitmap^ GetCornersDebug();
-		WriteableBitmap^ GetTransformedCard();
-		WriteableBitmap^ GetNameRegion();
-		WriteableBitmap^ GetTextDecomposition();
-		WriteableBitmap^ GetTextOuputImage();
+        void SetIntermediateData(IntermediateMat mat, System::String^ path);
+        WriteableBitmap^ GetIntermediateMat(IntermediateMat mat);
 
 	private:
 		bool FilterContours_Internal(cv::Mat src);

@@ -93,7 +93,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)opencv/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_core310d.lib;opencv_imgproc310d.lib;opencv_text310d.lib;opencv_videoio310d.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core310d.lib;opencv_imgcodecs310d.lib;opencv_imgproc310d.lib;opencv_text310d.lib;opencv_videoio310d.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)opencv/$(Platform)/lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -109,7 +109,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)opencv/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_core310d.lib;opencv_imgproc310d.lib;opencv_text310d.lib;opencv_videoio310d.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core310d.lib;opencv_imgcodecs310d.lib;opencv_imgproc310d.lib;opencv_text310d.lib;opencv_videoio310d.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)opencv/$(Platform)/lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -124,7 +124,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)opencv/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_core310.lib;opencv_imgproc310.lib;opencv_text310.lib;opencv_videoio310.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core310.lib;opencv_imgcodecs310.lib;opencv_imgproc310.lib;opencv_text310.lib;opencv_videoio310.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)opencv/$(Platform)/lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -141,7 +141,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)opencv/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_core310.lib;opencv_imgproc310.lib;opencv_text310.lib;opencv_videoio310.lib</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core310.lib;opencv_imgcodecs310.lib;opencv_imgproc310.lib;opencv_text310.lib;opencv_videoio310.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)opencv/$(Platform)/lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>

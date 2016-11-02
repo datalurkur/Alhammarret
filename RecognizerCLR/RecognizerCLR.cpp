@@ -349,25 +349,75 @@ System::String^ CardRecognizer::RecognizeText()
     return gcnew System::String(outputText.c_str());
 }
 
-WriteableBitmap^ CardRecognizer::GetPreview() { return BGRMatToBitmap(*frameMat); }
-
-WriteableBitmap^ CardRecognizer::GetContourDebug() { return BGRMatToBitmap(*contoursDebug); }
-
-WriteableBitmap^ CardRecognizer::GetCornersDebug() { return BGRMatToBitmap(*cornersDebug); }
-
-WriteableBitmap^ CardRecognizer::GetTransformedCard() { return BGRMatToBitmap(*transformedCard); }
-
-WriteableBitmap^ CardRecognizer::GetNameRegion()
+void CardRecognizer::SetIntermediateData(IntermediateMat mat, System::String^ path)
 {
-	int width = kCardWidth - kNameRPadding - kNameLPadding;
-	Rect roi(kNameLPadding, kNameVPadding, width, kNameHeight);
-	Mat cropped = (*transformedCard)(roi);
-	return BGRMatToBitmap(cropped);
+    IntPtr ptrToNative = Marshal::StringToHGlobalAnsi(path);
+    char* cPath = static_cast<char*>(ptrToNative.ToPointer());
+    switch (mat)
+    {
+    case IntermediateMat::Preview:
+        *frameMat = imread(cPath);
+        break;
+    case IntermediateMat::Contour:
+        *contoursDebug = imread(cPath);
+        break;
+    case IntermediateMat::Corners:
+        *cornersDebug = imread(cPath);
+        break;
+    case IntermediateMat::Transformed:
+        *transformedCard = imread(cPath);
+        break;
+    case IntermediateMat::TextDecomp:
+        *textDecompDebug = imread(cPath);
+        break;
+    case IntermediateMat::TextOutput:
+        *outputTextDebug = imread(cPath);
+        break;
+    }
+    Marshal::FreeHGlobal(ptrToNative);
 }
 
-WriteableBitmap^ CardRecognizer::GetTextDecomposition() { return BGRMatToBitmap(*textDecompDebug); }
+WriteableBitmap^ CardRecognizer::GetIntermediateMat(IntermediateMat mat)
+{
+    Mat* source;
+    bool needsFree = false;
+    switch (mat)
+    {
+    case IntermediateMat::Preview:
+        source = frameMat;
+        break;
+    case IntermediateMat::Contour:
+        source = contoursDebug;
+        break;
+    case IntermediateMat::Corners:
+        source = cornersDebug;
+        break;
+    case IntermediateMat::Transformed:
+        source = transformedCard;
+        break;
+    case IntermediateMat::NameRegion:
+    {
+        int width = kCardWidth - kNameRPadding - kNameLPadding;
+        Rect roi(kNameLPadding, kNameVPadding, width, kNameHeight);
+        source = new Mat((*transformedCard)(roi));
+        needsFree = true;
+        break;
+    }
+    case IntermediateMat::TextDecomp:
+        source = textDecompDebug;
+        break;
+    case IntermediateMat::TextOutput:
+        source = outputTextDebug;
+        break;
+    }
 
-WriteableBitmap^ CardRecognizer::GetTextOuputImage() { return BGRMatToBitmap(*outputTextDebug); }
+    WriteableBitmap^ ret = BGRMatToBitmap(*source);
+    if (needsFree)
+    {
+        delete source;
+    }
+    return ret;
+}
 
 void CardRecognizer::SetCannyParams(int lower, int upper, int kernel, int blur)
 {

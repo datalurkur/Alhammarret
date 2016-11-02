@@ -129,36 +129,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\AllSets.txt" />
-    <Resource Include="Assets\hunspell_affix.txt" />
-    <Resource Include="Assets\LockScreenLogo.scale-200.png" />
-    <Resource Include="Assets\mana_background.png" />
-    <Resource Include="Assets\mana_black.png" />
-    <Resource Include="Assets\mana_blue.png" />
-    <Resource Include="Assets\mana_colorless.png" />
-    <Resource Include="Assets\mana_green.png" />
-    <Resource Include="Assets\mana_red.png" />
-    <Resource Include="Assets\mana_white.png" />
-    <Resource Include="Assets\set_bfz.png" />
-    <Resource Include="Assets\set_bng.png" />
-    <Resource Include="Assets\set_dtk.png" />
-    <Resource Include="Assets\set_emn.png" />
-    <Resource Include="Assets\set_frf.png" />
-    <Resource Include="Assets\set_jou.png" />
-    <Resource Include="Assets\set_ktk.png" />
-    <Resource Include="Assets\set_m15.png" />
-    <Resource Include="Assets\set_ogw.png" />
-    <Resource Include="Assets\set_ori.png" />
-    <Resource Include="Assets\set_soi.png" />
-    <Resource Include="Assets\set_ths.png" />
-    <Resource Include="Assets\SplashScreen.scale-200.png" />
-    <Resource Include="Assets\Square150x150Logo.scale-200.png" />
-    <Resource Include="Assets\Square44x44Logo.scale-200.png" />
-    <Resource Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Resource Include="Assets\StoreLogo.png" />
-    <Resource Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -213,17 +183,6 @@
       <Project>{848645ea-85b3-4517-abde-0afbc40078e6}</Project>
       <Name>RecognizerCLR</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\cancel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\trained_classifierNM1.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\trained_classifierNM2.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.103\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.103\build\net451\System.Data.SQLite.Core.targets')" />

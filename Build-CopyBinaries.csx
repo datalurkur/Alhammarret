@@ -35,25 +35,75 @@ for (int i = 0; i < args.Length; ++i)
     }
 }
 
-string openCVSourceFolder = $"..\\opencv\\{platform}\\bin\\";
-string[] openCVFiles = new string[] {
+string binSource = $"..\\opencv\\{platform}\\bin\\";
+string[] binFiles = new string[] {
     "opencv_core310",
     "opencv_imgproc310",
     "opencv_imgcodecs310",
     "opencv_ml310",
     "opencv_text310",
-    "opencv_videoio310"
+    "opencv_videoio310",
+    "libtesseract302",
+    "liblept168"
 };
+bool[] binHasDebug = new bool[] {
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    false,
+    false
+};
+string assetsSource = $"..\\Assets";
+string testAssetsSource = $"..\\TestAssets";
 
 // TODO - validate that this is actually a legit path
 
 Console.WriteLine("Beginning file copy...");
-for (int i = 0; i < openCVFiles.Length; ++i)
+Console.WriteLine("Copying binaries...");
+for (int i = 0; i < binFiles.Length; ++i)
 {
-    string fileName = openCVFiles[i] + (isDebugBuild ? "d" : "") + ".dll";
-    string fullSourceName = openCVSourceFolder + fileName;
+    string fileName = binFiles[i];
+    if (binHasDebug[i] && isDebugBuild)
+    {
+        fileName += "d.dll";
+    }
+    else
+    {
+        fileName += ".dll";
+    }
+    string fullSourceName = binSource + fileName;
     string fullDestName = destination + fileName;
     Console.WriteLine($"  -Copying {fullSourceName} to {fullDestName}");
     File.Copy(fullSourceName, fullDestName, true);
 }
+
+Console.WriteLine($"Copying assets...");
+string assetDir = destination + "Assets";
+if (!Directory.Exists(assetDir))
+{
+    Directory.CreateDirectory(assetDir);
+}
+foreach (string asset in Directory.GetFiles(assetsSource))
+{
+    string destAsset = Path.Combine(assetDir, Path.GetFileName(asset));
+    Console.WriteLine($"  -Copying {asset} to {destAsset}");
+    File.Copy(asset, destAsset, true);
+}
+
+Console.WriteLine($"Copying test assets...");
+assetDir = destination + "TestAssets";
+if (!Directory.Exists(assetDir))
+{
+    Directory.CreateDirectory(assetDir);
+}
+foreach (string testAsset in Directory.GetFiles(testAssetsSource))
+{
+    string destAsset = Path.Combine(assetDir, Path.GetFileName(testAsset));
+    Console.WriteLine($"  -Copying {testAsset} to {destAsset}");
+    File.Copy(testAsset, destAsset, true);
+}
+
 Console.WriteLine("Copy done!");
