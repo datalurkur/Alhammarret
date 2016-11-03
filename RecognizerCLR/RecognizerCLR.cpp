@@ -252,8 +252,11 @@ System::String^ CardRecognizer::RecognizeText()
 
     // DETECT TEXT
     // Get the name region
-    int width = kCardWidth - kNameRPadding - kNameLPadding;
-    Rect roi(kNameLPadding, kNameVPadding, width, kNameHeight);
+    //int width = kCardWidth - kNameRPadding - kNameLPadding;
+    //Rect roi(kNameLPadding, kNameVPadding, width, kNameHeight);
+    int width = transformedCard->cols;
+    int height = (int)(transformedCard->rows * 0.1f);
+    Rect roi(0, 0, width, height);
     Mat nameRegion = (*transformedCard)(roi);
 
     // Convert the name region to grayscale

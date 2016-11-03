@@ -7,6 +7,7 @@ using System.Collections;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Alhammarret;
+using Recognizer;
 
 namespace Alhammarret.ViewModel
 {
@@ -258,13 +259,13 @@ namespace Alhammarret.ViewModel
             }
         }
 
-        public Recognizer.CardRecognizer Recognizer;
+        public CardRecognizer Recognizer;
 
         public CardRecognizerViewModel()
         {
             this.noImagePlaceholder = new BitmapImage(new System.Uri("/Assets/cancel.png", UriKind.RelativeOrAbsolute));
 
-            this.Recognizer = new Recognizer.CardRecognizer();
+            this.Recognizer = new CardRecognizer();
 
             this.CannyLowerControl = new VariableControl("Canny Lower", UpdateCannyParams);
             this.CannyUpperControl = new VariableControl("Canny Upper", UpdateCannyParams);
@@ -317,11 +318,11 @@ namespace Alhammarret.ViewModel
                         if (this.Recognizer.IsolateCard())
                         {
                             // Successfully framed
-                            this.NameRegion = this.Recognizer.GetNameRegion();
+                            this.NameRegion = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.NameRegion);
 
                             string recognizedText = this.Recognizer.RecognizeText();
-                            this.TextDecomp = this.Recognizer.GetTextDecomposition();
-                            this.OutputDebug = this.Recognizer.GetTextOuputImage();
+                            this.TextDecomp = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.TextDecomp);
+                            this.OutputDebug = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.TextOutput);
 
                             this.OCRName = $"'{recognizedText}'";
                             // FIXME
@@ -344,20 +345,20 @@ namespace Alhammarret.ViewModel
                             }
                             */
                         }
-                        this.TransformedImage = this.Recognizer.GetTransformedCard();
+                        this.TransformedImage = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.Transformed);
                     }
                     else
                     {
                         this.TransformedImage = this.noImagePlaceholder;
                     }
-                    this.CornersImage = this.Recognizer.GetCornersDebug();
+                    this.CornersImage = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.Corners);
                 }
                 else
                 {
                     this.CornersImage = this.noImagePlaceholder;
                 }
-                this.PreviewImage = this.Recognizer.GetPreview();
-                this.ContourImage = this.Recognizer.GetContourDebug();
+                this.PreviewImage = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.Preview);
+                this.ContourImage = this.Recognizer.GetIntermediateMat(CardRecognizer.IntermediateMat.Contour);
 
                 this.FramesScanned += 1;
             }

@@ -12,6 +12,7 @@ bool Test_OCRFromTransformedCard(CardRecognizer^ recognizer, System::String^ pat
 
 int main(array<System::String ^> ^args)
 {
+    String^ cwd = System::IO::Directory::GetCurrentDirectory();
     CardRecognizer^ recognizer = gcnew CardRecognizer();
     if (!Test_OCRFromTransformedCard(recognizer, "TestAssets\\TirelessTracker_Cropped.jpg", "Tireless Tracker"))
     {
